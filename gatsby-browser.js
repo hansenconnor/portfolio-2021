@@ -1,10 +1,10 @@
 // custom typefaces
-import "typeface-montserrat"
-import "typeface-merriweather"
+import "@fontsource/poppins"
+
 // normalize CSS across browsers
 import "./src/normalize.css"
 // custom CSS styles
-import "./src/style.css"
+import "./src/styles/global.scss"
 
 // Highlighting for code blocks
 import "prismjs/themes/prism.css"
