@@ -1,16 +1,54 @@
-import * as React from "react"
-import Layout from "../components/layout"
+import React, { useEffect } from "react"
+// import { Spring } from "react-spring/renderprops"
+// import VisibilitySensor from "react-visibility-sensor"
+// import {Parallax, ParallaxLayer} from 'react-spring/renderprops-addons'
+// import Layout from "../components/layout"
 import SEO from "../components/seo"
+import LocomotiveScroll from 'locomotive-scroll'
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import collage from "../images/collage-small.png"
+import CustomLink from "../components/custom-link"
 
-class Index extends React.Component {
+function Index() {
 
-  componentDidMount() {
-    console.log('Hello world');
-    gsap.registerPlugin(ScrollTrigger);
+  // const scrollRef = React.createRef();
 
-    gsap.utils.toArray(".asdf").forEach(e => {
+  useEffect(() => {
+  //   const scroll = new LocomotiveScroll({
+  //     el: document.querySelector('[data-scroll-container]'),
+  //     smooth: true
+  //   });
+  // })
+
+    // gsap.registerPlugin(ScrollTrigger)
+    
+    // const scroller = new LocomotiveScroll({
+    //   el: document.querySelector('.page'),
+    //   smooth: true
+    // });
+
+    // scroller.on('scroll', ScrollTrigger.update)
+
+    // ScrollTrigger.scrollerProxy(
+    //     '.page', {
+    //         scrollTop(value) {
+    //             return arguments.length ?
+    //             window.scroll.scrollTo(value, 0, 0) :
+    //             window.scroll.scroll.instance.scroll.y
+    //         },
+    //         getBoundingClientRect() {
+    //             return {
+    //                 left: 0, top: 0, 
+    //                 width: window.innerWidth,
+    //                 height: window.innerHeight
+    //             }
+    //         },
+    //         pinType: document.querySelector(".page").style.transform ? "transform" : "fixed"
+    //     }
+    // )
+
+    gsap.utils.toArray(".gsap-fade-in").forEach(e => {
 
       gsap.fromTo(e, {
         autoAlpha: 0
@@ -18,23 +56,84 @@ class Index extends React.Component {
         autoAlpha: 1,
         scrollTrigger: {
           trigger: e,
+          scroller: '#___gatsby',
           start: "top 80%",
           end: "top 50%",
           scrub: true,
-          markers: true,
+          markers: false,
         }
       });
     });
-  }
 
-  render () {
+    // Handle Parallax
+    gsap.fromTo(".parallax", {
+      autoAlpha: 0,
+      backgroundPosition: `center 100%`
+    },{
+      autoAlpha: 1,
+      backgroundPosition: `center 0%`,
+      scrollTrigger: {
+        trigger: ".parallax",
+        scroller: '#___gatsby',
+        start: "top 80%",
+        end: "top top",
+        scrub: true,
+        markers: false,
+      }
+    });
+
+
+
+    // Fading Typography Bullets
+    // gsap.utils.toArray(".typography-hero-bullets").forEach(e => {
+    //   gsap.fromTo(e, {
+    //     autoAlpha: 0,
+    //     y: -50
+    //   },{
+    //     autoAlpha: 1,
+    //     y: 50,
+    //     scrollTrigger: {
+    //       trigger: ".copy-scroll-section",
+    //       scrub: true,
+    //       pin: true,
+    //       scroller: '.page',
+    //       anticipatePin: 1,
+    //       start: 'top top',
+    //       end: '+=4000',
+    //       markers: true
+    //     }
+    //   })
+    // })
+
+    // gsap.utils.toArray(".panel").forEach((panel, i) => {
+    //   ScrollTrigger.create({
+    //     trigger: panel,
+    //     start: "top top",
+    //     scroller: ".page", 
+    //     pin: true, 
+    //     pinSpacing: false 
+    //   });
+    // });
+
+    // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
+    // ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
+
+    // ScrollTrigger.refresh()
+
+    // return () => {
+    //   console.log('destroying scroller')
+    //   scroller.destroy()
+    // }
+  });
+
+
     return (
-      <Layout>
+      <React.Fragment>
         <SEO title="Connor Hansen" />
         <div className="page">
           
           <section>
-            <h2 id="heroText" className="title w-10/12 inline-block">
+            <h2 id="heroText" className="title w-10/12 inline-block" data-scroll data-scroll-speed="3">
               <span className="inline-block animate__animated animate__fadeInUp"><span className="text-gray-500">Design engineer combining</span> creativity, technology,</span>
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-1s"> design and strategy <span className="text-gray-500">to help brands</span> exceed their goals </span>
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-2s"><span className="text-gray-500">and ultimately</span> build better businesses.</span></h2>
@@ -53,21 +152,29 @@ class Index extends React.Component {
             </div>
           </section>
 
-          <section className="min-h-screen flex items-center">
+
+          <section className="min-h-screen flex items-center" >
             <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="bg-gray-200 h-40 parallax" style={{ backgroundImage: "url(" + collage + ")", backgroundSize: "160%" }}></div>
               <div>
-                col 1
-              </div>
-              <div>
-                <h2 className="asdf">Fashion, Tech, Real Estate Healthcare and More</h2>
-                <p>I’ve completed projects for a variety of industries and individuals.</p>
+                <h2 className="gsap-fade-in" >Fashion, Tech, Real Estate Healthcare and More</h2>
+                <p className="gsap-fade-in" >I’ve completed projects for a variety of industries and individuals.</p>
+                <CustomLink to="/showcase">Check out my work</CustomLink>
               </div>
             </div>
           </section>
+
+
+          <section className="copy-scroll-section text-center" data-scroll data-scroll-speed="2">
+            <p className="typography-hero-bullets text-5xl font-black text-gray-800 mb-4" data-scroll data-scroll-direction="horizontal" data-scroll-speed="-2">Redefining the future of </p>
+            <p className="typography-hero-bullets text-5xl font-black text-gray-800" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">interactive experience design</p>
+          </section>
+
+          <section className="min-h-screen"></section>
+
         </div>
-      </Layout>
+      </React.Fragment>
     )
-  }
 }
 
 export default Index

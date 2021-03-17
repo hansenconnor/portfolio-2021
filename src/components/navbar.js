@@ -6,7 +6,7 @@ import CustomLink from "./custom-link"
 const Navbar = () => {
 
     return (
-        <nav className="navbar flex flex-wrap items-center justify-between px-12 py-8 w-screen animate__animated animate__fadeIn">
+        <nav className="navbar flex flex-wrap items-center justify-between px-12 py-8 w-screen">
             <Link to="/" className="rounded-full bg-gray-100 hover:bg-gray-50 hover:shadow-lg transition">
                 <img src={memoji} alt="Connor Hansen Memoji"/>
             </Link>

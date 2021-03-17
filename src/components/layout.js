@@ -1,34 +1,28 @@
 import * as React from "react"
 import Navbar from "./navbar"
 import { Helmet } from "react-helmet"
-import Scrollbar from "smooth-scrollbar"
-// import { Link } from "gatsby"
+import Scroll from "./locomotive-scroll"
+import "../styles/locomotive-scroll.css"
 
+const Layout = ({ children, location }) => {
 
-class Layout extends React.Component {
+  return (
+    <div className="global-wrapper" data-scroll-container>
+      {/* <Helmet htmlAttributes={{class : "bg-gray-50"}}></Helmet> */}
+      <header className="global-header animate__animated animate__fadeIn">
+        <Navbar />
+      </header>
 
-  componentDidMount() {
-    // Scrollbar.init(document.querySelector('body'), {
-    //   damping: 0.08
-    // });
-  }
+      <Scroll callbacks={location}></Scroll>
 
-  render() {
-    return (
-      <div className="global-wrapper">
-        <Helmet htmlAttributes={{class : "bg-gray-50"}}></Helmet>
-        <header className="global-header">
-          <Navbar />
-        </header>
-        <main>{this.props.children}</main>
-        <footer>
-          {/* © {new Date().getFullYear()}, Built with */}
-          {` `}
-          {/* <a href="https://www.gatsbyjs.com">Gatsby</a> */}
-        </footer>
-      </div>
-    )
-  }
+      <main>{children}</main>
+      <footer>
+        {/* © {new Date().getFullYear()}, Built with */}
+        {` `}
+        {/* <a href="https://www.gatsbyjs.com">Gatsby</a> */}
+      </footer>
+    </div>
+  )
 }
 
 export default Layout

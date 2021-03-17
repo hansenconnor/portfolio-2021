@@ -1,5 +1,6 @@
 // custom typefaces
 import "@fontsource/poppins"
+import "@fontsource/poppins/600.css"
 
 // normalize CSS across browsers
 import "./src/normalize.css"

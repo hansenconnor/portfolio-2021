@@ -4,26 +4,20 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/utilities';
 @import 'animate.css';
+// @import 'locomotive-scroll.css';
 
 /* All delay classes will take half the time to start */
 :root {
     --animate-delay: 0.20s;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-html::-webkit-scrollbar {
-    display: none;
-}
-  
-/* Hide scrollbar for IE, Edge and Firefox */
-html {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
 
 body {
-    height: 100vh;
     font-family: "Poppins";
+}
+
+.page {
+    padding-top: 125px;
 }
 
 // h1,
@@ -61,7 +55,7 @@ h3 {
 }
 
 p {
-    max-width: 60ch;
+    // max-width: 60ch;
     color: #505050;
 }
   
