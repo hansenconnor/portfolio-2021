@@ -1,6 +1,6 @@
 import * as React from "react"
 import Navbar from "./navbar"
-import { Helmet } from "react-helmet"
+// import { Helmet } from "react-helmet"
 import Scroll from "./locomotive-scroll"
 import "../styles/locomotive-scroll.css"
 

@@ -4,9 +4,9 @@ import React, { useEffect } from "react"
 // import {Parallax, ParallaxLayer} from 'react-spring/renderprops-addons'
 // import Layout from "../components/layout"
 import SEO from "../components/seo"
-import LocomotiveScroll from 'locomotive-scroll'
+// import LocomotiveScroll from 'locomotive-scroll'
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
 import collage from "../images/collage-small.png"
 import CustomLink from "../components/custom-link"
 
@@ -71,14 +71,14 @@ function Index() {
       backgroundPosition: `center 100%`
     },{
       autoAlpha: 1,
-      backgroundPosition: `center 0%`,
+      backgroundPosition: `center 25%`,
       scrollTrigger: {
         trigger: ".parallax",
         scroller: '#___gatsby',
         start: "top 80%",
         end: "top top",
         scrub: true,
-        markers: false,
+        markers: true,
       }
     });
 
@@ -154,12 +154,14 @@ function Index() {
 
 
           <section className="min-h-screen flex items-center" >
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="bg-gray-200 h-40 parallax" style={{ backgroundImage: "url(" + collage + ")", backgroundSize: "160%" }}></div>
-              <div>
-                <h2 className="gsap-fade-in" >Fashion, Tech, Real Estate Healthcare and More</h2>
-                <p className="gsap-fade-in" >I’ve completed projects for a variety of industries and individuals.</p>
-                <CustomLink to="/showcase">Check out my work</CustomLink>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-gray-200 h-80 parallax" style={{ backgroundImage: "url(" + collage + ")", backgroundSize: "auto" }}></div>
+              <div class="flex items-center">
+                <div>
+                  <h2 className="gsap-fade-in">Fashion, Tech, Real Estate Healthcare and More</h2>
+                  <p className="gsap-fade-in mb-8">I’ve completed projects for a variety of industries and individuals.</p>
+                  <CustomLink className="gsap-fade-in" to="/showcase">Check out my work</CustomLink>
+                </div>
               </div>
             </div>
           </section>
