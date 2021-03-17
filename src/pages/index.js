@@ -6,7 +6,7 @@ import React, { useEffect } from "react"
 import SEO from "../components/seo"
 // import LocomotiveScroll from 'locomotive-scroll'
 import { gsap } from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import collage from "../images/collage-small.png"
 import CustomLink from "../components/custom-link"
 
@@ -21,14 +21,14 @@ function Index() {
   //   });
   // })
 
-    // gsap.registerPlugin(ScrollTrigger)
+    gsap.registerPlugin(ScrollTrigger)
     
     // const scroller = new LocomotiveScroll({
     //   el: document.querySelector('.page'),
     //   smooth: true
     // });
 
-    // scroller.on('scroll', ScrollTrigger.update)
+    window.scroll.on('scroll', ScrollTrigger.update)
 
     // ScrollTrigger.scrollerProxy(
     //     '.page', {
@@ -48,6 +48,7 @@ function Index() {
     //     }
     // )
 
+    // Fade in elements with class
     gsap.utils.toArray(".gsap-fade-in").forEach(e => {
 
       gsap.fromTo(e, {
@@ -78,9 +79,26 @@ function Index() {
         start: "top 80%",
         end: "top top",
         scrub: true,
-        markers: true,
+        markers: false,
       }
     });
+
+    // Verticals Pinned Section Story
+    const tl = gsap.timeline();
+    tl.from(".red", {y: "100%"})
+      .from(".green", {yPercent: 100})
+      .from(".blue", {yPercent: 100});
+    
+      ScrollTrigger.create({
+        animation: tl,
+        trigger: "#verticals",
+        scroller: "#___gatsby",
+        start: "top top",
+        end: "+=4000", 
+        scrub: true,
+        pin: true,
+        anticipatePin: 1
+      });
 
 
 
@@ -116,9 +134,9 @@ function Index() {
     // });
 
     // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
-    // ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
+    ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
 
-    // ScrollTrigger.refresh()
+    ScrollTrigger.refresh()
 
     // return () => {
     //   console.log('destroying scroller')
@@ -167,11 +185,40 @@ function Index() {
           </section>
 
 
-          <section className="copy-scroll-section text-center" data-scroll data-scroll-speed="2">
+          {/* <section className="copy-scroll-section text-center" data-scroll data-scroll-speed="2">
             <p className="typography-hero-bullets text-5xl font-black text-gray-800 mb-4" data-scroll data-scroll-direction="horizontal" data-scroll-speed="-2">Redefining the future of </p>
             <p className="typography-hero-bullets text-5xl font-black text-gray-800" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">interactive experience design</p>
+          </section> */}
+
+          <section id="verticals" className="h-screen flex items-center relative w-full overflow-hidden">
+            <div className="grid grid-cols-2 gap-6 h-full w-full">
+              
+              <div className="flex items-center">
+              <div className="relative w-full overflow-hidden h-80">
+                <div class="panel absolute h-full w-full red bg-red-500 text-black">
+                  <h2>Lorem Ipsum</h2>
+                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
+                </div>
+                <div class="panel absolute h-full w-full green bg-green-500">
+                  <h2>Lorem Ipsum</h2>
+                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
+                </div>
+                <div class="panel absolute h-full w-full blue bg-blue-500">
+                  <h2>Lorem Ipsum</h2>
+                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
+                </div>    
+              </div>
+              </div>
+
+              <div class="flex items-center">
+                This is the second grid col
+              </div>
+
+            </div>
           </section>
 
+          <section className="min-h-screen"></section>
+          <section className="min-h-screen"></section>
           <section className="min-h-screen"></section>
 
         </div>
