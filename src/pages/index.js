@@ -1,4 +1,5 @@
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
+import * as THREE from 'three'
 // import { Spring } from "react-spring/renderprops"
 // import VisibilitySensor from "react-visibility-sensor"
 // import {Parallax, ParallaxLayer} from 'react-spring/renderprops-addons'
@@ -9,44 +10,29 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import collage from "../images/collage-small.png"
 import CustomLink from "../components/custom-link"
+// import * as THREE from 'three'
+// import { Canvas, useFrame } from 'react-three-fiber'
+import BlobScene from '../components/blob-scene'
 
 function Index() {
 
-  // const scrollRef = React.createRef();
+  let [swarmCount, setSwarmCount] = useState(2)
+  let [intensity, setIntensity] = useState({value: 1.5})
+  // let [swarmColor, setSwarmColor] = useState({r:0.5, g:0.4, b:0})
+  let [swarmColor, setSwarmColor] = useState(new THREE.Color( 0xff0000 ))
+  // let swarmCount = 2
 
   useEffect(() => {
-  //   const scroll = new LocomotiveScroll({
-  //     el: document.querySelector('[data-scroll-container]'),
-  //     smooth: true
-  //   });
-  // })
+
+    setTimeout(function() {
+      // setSwarmColor("#505050")
+      // setIntensity(0.5)
+      // setSwarmCount(3)
+    }, 3000)
 
     gsap.registerPlugin(ScrollTrigger)
-    
-    // const scroller = new LocomotiveScroll({
-    //   el: document.querySelector('.page'),
-    //   smooth: true
-    // });
-
+  
     window.scroll.on('scroll', ScrollTrigger.update)
-
-    // ScrollTrigger.scrollerProxy(
-    //     '.page', {
-    //         scrollTop(value) {
-    //             return arguments.length ?
-    //             window.scroll.scrollTo(value, 0, 0) :
-    //             window.scroll.scroll.instance.scroll.y
-    //         },
-    //         getBoundingClientRect() {
-    //             return {
-    //                 left: 0, top: 0, 
-    //                 width: window.innerWidth,
-    //                 height: window.innerHeight
-    //             }
-    //         },
-    //         pinType: document.querySelector(".page").style.transform ? "transform" : "fixed"
-    //     }
-    // )
 
     // Fade in elements with class
     gsap.utils.toArray(".gsap-fade-in").forEach(e => {
@@ -84,10 +70,49 @@ function Index() {
     });
 
     // Verticals Pinned Section Story
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({
+      onComplete: () => {
+        console.log('complete')
+        // setIntensity(0.5)
+        // setSwarmColor(new THREE.Color(0x00FF00))
+      },
+      onUpdate: () => {
+        setIntensity()
+        // console.log(intensity)
+      }
+    });
+
     tl.from(".red", {y: "100%"})
-      .from(".green", {yPercent: 100})
-      .from(".blue", {yPercent: 100});
+      .from(".green", {y: "100%"})
+      .from(".blue", {y: "100%"});
+
+    tl.to(intensity, { value: setIntensity(0.5) })
+
+    console.log(intensity)
+      // gsap.to(intensity, {
+      //   scrollTrigger: {
+      //     trigger: "#verticals",
+      //     scroller: '#___gatsby',
+      //     start: "top top",
+      //     end: "+=4000",
+      //     scrub: true,
+      //     markers: false,
+      //   }
+      // }, {value: 0.25})
+
+    // tl.to(intensity, {intensity: 0.5})
+
+      // tl.to(swarmColor, {
+      //   swarmColor: setSwarmColor(new THREE.Color(0x00FF00))
+      // })
+    // tl.from(swarmColor, {
+    //   r: 0,
+    //   g: 255,
+    //   b: 0
+    // })
+
+    // tl.call(setSwarmColor, [{r: 0.2, g: 0.6, b: 1 }])
+    // tl.call(setSwarmColor, [new THREE.Color(0x00FF00)])
     
       ScrollTrigger.create({
         animation: tl,
@@ -100,50 +125,25 @@ function Index() {
         anticipatePin: 1
       });
 
-
-
-    // Fading Typography Bullets
-    // gsap.utils.toArray(".typography-hero-bullets").forEach(e => {
-    //   gsap.fromTo(e, {
-    //     autoAlpha: 0,
-    //     y: -50
-    //   },{
-    //     autoAlpha: 1,
-    //     y: 50,
-    //     scrollTrigger: {
-    //       trigger: ".copy-scroll-section",
-    //       scrub: true,
-    //       pin: true,
-    //       scroller: '.page',
-    //       anticipatePin: 1,
-    //       start: 'top top',
-    //       end: '+=4000',
-    //       markers: true
-    //     }
-    //   })
-    // })
-
-    // gsap.utils.toArray(".panel").forEach((panel, i) => {
-    //   ScrollTrigger.create({
-    //     trigger: panel,
-    //     start: "top top",
-    //     scroller: ".page", 
-    //     pin: true, 
-    //     pinSpacing: false 
-    //   });
-    // });
-
     // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
     ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
 
     ScrollTrigger.refresh()
 
+    // Initialize ThreeJS Blob Scene
+    
+
     // return () => {
     //   console.log('destroying scroller')
     //   scroller.destroy()
     // }
-  });
+  }, [swarmCount, swarmColor]);
 
+  function rgb(rgb) {
+    var c = new THREE.Color(`rgb(${rgb.r}, ${rgb.b}, ${rgb.b})`)
+    var hex = c.getHex()
+    return hex
+  }
 
     return (
       <React.Fragment>
@@ -171,10 +171,10 @@ function Index() {
           </section>
 
 
-          <section className="min-h-screen flex items-center" >
+          <section className="min-h-screen flex items-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-gray-200 h-80 parallax" style={{ backgroundImage: "url(" + collage + ")", backgroundSize: "auto" }}></div>
-              <div class="flex items-center">
+              <div className="flex items-center">
                 <div>
                   <h2 className="gsap-fade-in">Fashion, Tech, Real Estate Healthcare and More</h2>
                   <p className="gsap-fade-in mb-8">I’ve completed projects for a variety of industries and individuals.</p>
@@ -195,23 +195,24 @@ function Index() {
               
               <div className="flex items-center">
               <div className="relative w-full overflow-hidden h-80">
-                <div class="panel absolute h-full w-full red bg-red-500 text-black">
+                <div className="panel absolute h-full w-full red bg-red-500 text-black">
                   <h2>Lorem Ipsum</h2>
                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
                 </div>
-                <div class="panel absolute h-full w-full green bg-green-500">
+                <div className="panel absolute h-full w-full green bg-green-500">
                   <h2>Lorem Ipsum</h2>
                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
                 </div>
-                <div class="panel absolute h-full w-full blue bg-blue-500">
+                <div className="panel absolute h-full w-full blue bg-blue-500">
                   <h2>Lorem Ipsum</h2>
                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
                 </div>    
               </div>
               </div>
 
-              <div class="flex items-center">
-                This is the second grid col
+              <div className="flex items-center">
+                {/* <div className="blob-scene" /> */}
+                <BlobScene swarmCount={swarmCount} intensity={intensity.value} swarmColor={swarmColor}></BlobScene>
               </div>
 
             </div>
