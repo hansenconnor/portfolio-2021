@@ -43,6 +43,7 @@ const Scroll = callbacks => {
 
     // Exposing to the global scope for ease of use.
     window.scroll = locomotiveScroll
+    window.scrollTrigger = ScrollTrigger
 
     locomotiveScroll.on("scroll", func => {
       // Update `data-direction` with scroll direction.

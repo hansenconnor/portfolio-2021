@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import * as THREE from 'three'
 // import { Spring } from "react-spring/renderprops"
 // import VisibilitySensor from "react-visibility-sensor"
@@ -17,118 +17,107 @@ import BlobScene from '../components/blob-scene'
 function Index() {
 
   let [swarmCount, setSwarmCount] = useState(2)
-  let [intensity, setIntensity] = useState({value: 1.5})
+  let [intensity, setIntensity] = useState(0.25)
   // let [swarmColor, setSwarmColor] = useState({r:0.5, g:0.4, b:0})
   let [swarmColor, setSwarmColor] = useState(new THREE.Color( 0xff0000 ))
   // let swarmCount = 2
+  const redRef = useRef(null)
+  const greenRef = useRef(null)
+  const blueRef = useRef(null)
 
   useEffect(() => {
 
-    setTimeout(function() {
-      // setSwarmColor("#505050")
-      // setIntensity(0.5)
-      // setSwarmCount(3)
-    }, 3000)
-
-    gsap.registerPlugin(ScrollTrigger)
+    // gsap.registerPlugin(ScrollTrigger)
   
-    window.scroll.on('scroll', ScrollTrigger.update)
+    // TODO: Destroy on cleanup
+    // window.scroll.on('scroll', ScrollTrigger.update)
 
     // Fade in elements with class
-    gsap.utils.toArray(".gsap-fade-in").forEach(e => {
+    // gsap.utils.toArray(".gsap-fade-in").forEach(e => {
 
-      gsap.fromTo(e, {
-        autoAlpha: 0
-      },{
-        autoAlpha: 1,
-        scrollTrigger: {
-          trigger: e,
-          scroller: '#___gatsby',
-          start: "top 80%",
-          end: "top 50%",
-          scrub: true,
-          markers: false,
-        }
-      });
-    });
+    //   gsap.fromTo(e, {
+    //     autoAlpha: 0
+    //   },{
+    //     autoAlpha: 1,
+    //     scrollTrigger: {
+    //       trigger: e,
+    //       scroller: '#___gatsby',
+    //       start: "top 80%",
+    //       end: "top 50%",
+    //       scrub: true,
+    //       markers: false,
+    //     }
+    //   });
+    // });
 
     // Handle Parallax
-    gsap.fromTo(".parallax", {
-      autoAlpha: 0,
-      backgroundPosition: `center 100%`
-    },{
-      autoAlpha: 1,
-      backgroundPosition: `center 25%`,
-      scrollTrigger: {
-        trigger: ".parallax",
-        scroller: '#___gatsby',
-        start: "top 80%",
-        end: "top top",
-        scrub: true,
-        markers: false,
-      }
-    });
+    // gsap.fromTo(".parallax", {
+    //   autoAlpha: 0,
+    //   backgroundPosition: `center 100%`
+    // },{
+    //   autoAlpha: 1,
+    //   backgroundPosition: `center 25%`,
+    //   scrollTrigger: {
+    //     trigger: ".parallax",
+    //     scroller: '#___gatsby',
+    //     start: "top 80%",
+    //     end: "top top",
+    //     scrub: true,
+    //     markers: false,
+    //   }
+    // });
 
     // Verticals Pinned Section Story
     const tl = gsap.timeline({
-      onComplete: () => {
-        console.log('complete')
-        // setIntensity(0.5)
-        // setSwarmColor(new THREE.Color(0x00FF00))
-      },
-      onUpdate: () => {
-        setIntensity()
-        // console.log(intensity)
+      onComplete: function(){
+        console.log(intensity)
       }
     });
 
-    tl.from(".red", {y: "100%"})
-      .from(".green", {y: "100%"})
-      .from(".blue", {y: "100%"});
+    var initialIntensity = intensity,
+    firstIntensity = { value: initialIntensity },
+    secondIntensity = { value: 2 }
 
-    tl.to(intensity, { value: setIntensity(0.5) })
+    tl.from(redRef.current, {y: "100%"})
+      .to(firstIntensity, {
+        value: 2,
+        ease: 'none',
+        onUpdate: setIntensity,
+        get onUpdateParams() {
+          return [parseFloat(firstIntensity.value.toFixed(2))]
+        }
+      }, "<")
+      .from(greenRef.current, {y: "100%"})
+      .from(blueRef.current, {y: "100%"});
 
-    console.log(intensity)
-      // gsap.to(intensity, {
-      //   scrollTrigger: {
-      //     trigger: "#verticals",
-      //     scroller: '#___gatsby',
-      //     start: "top top",
-      //     end: "+=4000",
-      //     scrub: true,
-      //     markers: false,
-      //   }
-      // }, {value: 0.25})
-
-    // tl.to(intensity, {intensity: 0.5})
-
-      // tl.to(swarmColor, {
-      //   swarmColor: setSwarmColor(new THREE.Color(0x00FF00))
-      // })
-    // tl.from(swarmColor, {
-    //   r: 0,
-    //   g: 255,
-    //   b: 0
+    // Update blob scene via timeline
+    // let dummyIntensity = { value: 1.5 }
+    // tl.to(dummyIntensity, { 
+    //   value: 0.5,
+    //   onUpdate: setIntensity,
+    //   onUpdateParams: [dummyIntensity.value]
     // })
-
-    // tl.call(setSwarmColor, [{r: 0.2, g: 0.6, b: 1 }])
-    // tl.call(setSwarmColor, [new THREE.Color(0x00FF00)])
+    // tl.to({ value: 1.5}, { 
+    //   value: 0.5,
+    //   onUpdate: setIntensity,
+    //   onUpdateParams: [value] 
+    // })
     
-      ScrollTrigger.create({
-        animation: tl,
-        trigger: "#verticals",
-        scroller: "#___gatsby",
-        start: "top top",
-        end: "+=4000", 
-        scrub: true,
-        pin: true,
-        anticipatePin: 1
-      });
+    window.scrollTrigger.create({
+      animation: tl,
+      trigger: "#verticals",
+      scroller: "#___gatsby",
+      start: "top top",
+      end: "+=4000", 
+      scrub: true,
+      pin: true,
+      anticipatePin: 1
+    });
 
     // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
-    ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
+    // ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
 
-    ScrollTrigger.refresh()
+    // ScrollTrigger.refresh()
 
     // Initialize ThreeJS Blob Scene
     
@@ -137,7 +126,7 @@ function Index() {
     //   console.log('destroying scroller')
     //   scroller.destroy()
     // }
-  }, [swarmCount, swarmColor]);
+  }, []);
 
   function rgb(rgb) {
     var c = new THREE.Color(`rgb(${rgb.r}, ${rgb.b}, ${rgb.b})`)
@@ -185,25 +174,28 @@ function Index() {
           </section>
 
 
-          {/* <section className="copy-scroll-section text-center" data-scroll data-scroll-speed="2">
-            <p className="typography-hero-bullets text-5xl font-black text-gray-800 mb-4" data-scroll data-scroll-direction="horizontal" data-scroll-speed="-2">Redefining the future of </p>
-            <p className="typography-hero-bullets text-5xl font-black text-gray-800" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">interactive experience design</p>
-          </section> */}
+          <section className="copy-scroll-section text-center min-h-screen flex items-center justify-center" data-scroll data-scroll-speed="2">
+            <div>
+              <p className="typography-hero-bullets text-5xl font-black text-gray-800 mb-4" data-scroll data-scroll-direction="horizontal" data-scroll-speed="-2">Redefining the future of </p>
+              <p className="typography-hero-bullets text-5xl font-black text-gray-800" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">interactive experience design</p>
+            </div>
+          </section>
+
 
           <section id="verticals" className="h-screen flex items-center relative w-full overflow-hidden">
             <div className="grid grid-cols-2 gap-6 h-full w-full">
               
               <div className="flex items-center">
               <div className="relative w-full overflow-hidden h-80">
-                <div className="panel absolute h-full w-full red bg-red-500 text-black">
+                <div ref={redRef} className="panel absolute h-full w-full red bg-red-500 text-black">
                   <h2>Lorem Ipsum</h2>
                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
                 </div>
-                <div className="panel absolute h-full w-full green bg-green-500">
+                <div ref={greenRef} className="panel absolute h-full w-full green bg-green-500">
                   <h2>Lorem Ipsum</h2>
                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
                 </div>
-                <div className="panel absolute h-full w-full blue bg-blue-500">
+                <div ref={blueRef} className="panel absolute h-full w-full blue bg-blue-500">
                   <h2>Lorem Ipsum</h2>
                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
                 </div>    
@@ -212,7 +204,7 @@ function Index() {
 
               <div className="flex items-center">
                 {/* <div className="blob-scene" /> */}
-                <BlobScene swarmCount={swarmCount} intensity={intensity.value} swarmColor={swarmColor}></BlobScene>
+                <BlobScene swarmCount={swarmCount} intensity={intensity} swarmColor={swarmColor}></BlobScene>
               </div>
 
             </div>
