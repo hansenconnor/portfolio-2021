@@ -123,6 +123,14 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
             test: /locomotive-scroll/,
             use: loaders.null(),
           },
+          {
+            test: /\.(glsl|vs|fs|vert|frag)$/,
+            exclude: /node_modules/,
+            use: [
+              'raw-loader',
+              'glslify-loader'
+            ]
+          }
         ],
       },
     })
