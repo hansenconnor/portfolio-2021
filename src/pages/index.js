@@ -13,34 +13,23 @@ import CustomLink from "../components/custom-link"
 // import * as THREE from 'three'
 // import { Canvas, useFrame } from 'react-three-fiber'
 import BlobScene from '../components/blob-scene'
-// import create from 'zustand'
-// import useBlobMatPropStore from '../store'
+import useBlobMatPropStore from '../store'
 
 function Index() {
 
   let [swarmCount, setSwarmCount] = useState(2)
   let [intensity, setIntensity] = useState(0.25)
   let [swarmColor, setSwarmColor] = useState(new THREE.Color( 0xff0000 ))
+    
 
-    // TODO: Pull useBlobMatPropStore dec to own module
-    const useBlobMatPropStore = create(set => ({
-        color: "#FFF",
-        clearColor: "#FFF",
-        waves: 5,
-        speed: 10,
-        setColor: color => set({ color: color }),
-        setClearColor: clearColor => set(state => ({  clearColor })), // This line might not work...
-        setWaves: waves => set({ waves: waves }),
-        setSpeed: speed => set({ speed: speed })
-    }))
-
-    // const color = useBlobMatPropStore(s => s.color)
+    const color = useBlobMatPropStore(s => s.color)
+    const waves = useBlobMatPropStore(s => s.waves)
     // const color = useBlobMatPropStore.getState().color // Get non-reactive fresh state
 
-    const setColor = useBlobMatPropStore(state => state.setColor)
-    const setClearColor = useBlobMatPropStore(state => state.setClearColor)
-    const setWaves = useBlobMatPropStore(state => state.setWaves)
-    const setSpeed = useBlobMatPropStore(state => state.setSpeed)
+    // const setColor = useBlobMatPropStore(state => state.setColor)
+    // const setClearColor = useBlobMatPropStore(state => state.setClearColor)
+    // const setWaves = useBlobMatPropStore(state => state.setWaves)
+    // const setSpeed = useBlobMatPropStore(state => state.setSpeed)
 
 
   const redRef = useRef(null)
@@ -90,11 +79,7 @@ function Index() {
     // });
 
     // Verticals Pinned Section Story
-    const tl = gsap.timeline({
-      onComplete: function(){
-        console.log(intensity)
-      }
-    });
+    const tl = gsap.timeline();
 
     var initialIntensity = intensity,
     firstIntensity = { value: initialIntensity },
@@ -133,43 +118,34 @@ function Index() {
         speed: 10,
     }
 
-    // Tween from default config to first custom config
-    t1.to( iConfig,
-      1,
-      {
-        colorProps:
-          { color: matPropConfig_1.color, clearColor: matPropConfig_1.clearColor }, 
-        waves: matPropConfig_1.waves,
-        speed: matPropConfig_1.speed,
-        onUpdate: setBlobMatProps,
-        get onUpdateParams() {
-            return [colorProps, waves, speed] // ? All props may be passed by default...
-        }
-      }
-    );
-
-    setBlobMatProps = (colorProps, waves, speed) => {
+    const setBlobMatProps = (props) => {
+      // console.log(props)
         useBlobMatPropStore.setState({
-            color: colorProps.color,
-            clearColor: colorProps.clearColor,
-            waves: waves,
-            speed: speed,
+            color: props.color,
+            clearColor: props.clearColor,
+            waves: props.waves,
+            speed: props.speed,
         }, true)
+
         // setColor(colorProps.color)
         // setClearColor(colorProps.clearColor)
         // setWaves(waves)
         // setSpeed(speed)
     }
+
     
     tl.from(redRef.current, {y: "100%"})
-      .to(firstIntensity, {
-        value: 2,
-        ease: 'none',
-        onUpdate: setIntensity,
-        get onUpdateParams() {
-          return [parseFloat(firstIntensity.value.toFixed(2))]
-        }
-      }, "<")
+      .to( iConfig,
+        {
+          color: matPropConfig_1.color, 
+          clearColor: matPropConfig_1.clearColor, 
+          waves: matPropConfig_1.waves,
+          speed: matPropConfig_1.speed,
+          onUpdate: setBlobMatProps,
+          onUpdateParams:[iConfig]
+        },
+        "<"
+      )
       .from(greenRef.current, {y: "100%"})
       .from(blueRef.current, {y: "100%"});
 
@@ -221,6 +197,11 @@ function Index() {
       <React.Fragment>
         <SEO title="Connor Hansen" />
         <div className="page">
+
+          <div className="fixed top-0 left-0">
+            <span>{color}</span>
+            <span>{waves}</span>
+          </div>
           
           <section>
             <h2 id="heroText" className="title w-10/12 inline-block" data-scroll data-scroll-speed="3">
