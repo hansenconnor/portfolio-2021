@@ -13,14 +13,36 @@ import CustomLink from "../components/custom-link"
 // import * as THREE from 'three'
 // import { Canvas, useFrame } from 'react-three-fiber'
 import BlobScene from '../components/blob-scene'
+// import create from 'zustand'
+// import useBlobMatPropStore from '../store'
 
 function Index() {
 
   let [swarmCount, setSwarmCount] = useState(2)
   let [intensity, setIntensity] = useState(0.25)
-  // let [swarmColor, setSwarmColor] = useState({r:0.5, g:0.4, b:0})
   let [swarmColor, setSwarmColor] = useState(new THREE.Color( 0xff0000 ))
-  // let swarmCount = 2
+
+    // TODO: Pull useBlobMatPropStore dec to own module
+    const useBlobMatPropStore = create(set => ({
+        color: "#FFF",
+        clearColor: "#FFF",
+        waves: 5,
+        speed: 10,
+        setColor: color => set({ color: color }),
+        setClearColor: clearColor => set(state => ({  clearColor })), // This line might not work...
+        setWaves: waves => set({ waves: waves }),
+        setSpeed: speed => set({ speed: speed })
+    }))
+
+    // const color = useBlobMatPropStore(s => s.color)
+    // const color = useBlobMatPropStore.getState().color // Get non-reactive fresh state
+
+    const setColor = useBlobMatPropStore(state => state.setColor)
+    const setClearColor = useBlobMatPropStore(state => state.setClearColor)
+    const setWaves = useBlobMatPropStore(state => state.setWaves)
+    const setSpeed = useBlobMatPropStore(state => state.setSpeed)
+
+
   const redRef = useRef(null)
   const greenRef = useRef(null)
   const blueRef = useRef(null)
@@ -78,6 +100,67 @@ function Index() {
     firstIntensity = { value: initialIntensity },
     secondIntensity = { value: 2 }
 
+    // Set default configuration from store
+    // ? Simplify ?
+    let iConfig = {
+        color:  useBlobMatPropStore.getState().color, // Get non-reactive fresh state,
+        clearColor:  useBlobMatPropStore.getState().clearColor,
+        waves: useBlobMatPropStore.getState().waves,
+        speed: useBlobMatPropStore.getState().speed,
+    }
+
+    // Config 1/3
+    let matPropConfig_1 = {
+        color: "#FF0000",
+        clearColor: "#FF0000",
+        waves: 2,
+        speed: 10,
+    }
+
+    // Config 2/3
+    let matPropConfig_2 = {
+        color: "#00FF00",
+        clearColor: "#00FF00",
+        waves: 2,
+        speed: 10,
+    }
+
+    // Config 3/3
+    let matPropConfig_3 = {
+        color: "#0000FF",
+        clearColor: "#0000FF",
+        waves: 2,
+        speed: 10,
+    }
+
+    // Tween from default config to first custom config
+    t1.to( iConfig,
+      1,
+      {
+        colorProps:
+          { color: matPropConfig_1.color, clearColor: matPropConfig_1.clearColor }, 
+        waves: matPropConfig_1.waves,
+        speed: matPropConfig_1.speed,
+        onUpdate: setBlobMatProps,
+        get onUpdateParams() {
+            return [colorProps, waves, speed] // ? All props may be passed by default...
+        }
+      }
+    );
+
+    setBlobMatProps = (colorProps, waves, speed) => {
+        useBlobMatPropStore.setState({
+            color: colorProps.color,
+            clearColor: colorProps.clearColor,
+            waves: waves,
+            speed: speed,
+        }, true)
+        // setColor(colorProps.color)
+        // setClearColor(colorProps.clearColor)
+        // setWaves(waves)
+        // setSpeed(speed)
+    }
+    
     tl.from(redRef.current, {y: "100%"})
       .to(firstIntensity, {
         value: 2,
