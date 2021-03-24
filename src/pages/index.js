@@ -18,9 +18,7 @@ import AppScene from './scene'
 
 function Index() {
 
-  let [swarmCount, setSwarmCount] = useState(2)
   let [intensity, setIntensity] = useState(0.25)
-  let [swarmColor, setSwarmColor] = useState(new THREE.Color( 0xff0000 ))
     
 
     // const color = useBlobMatPropStore(s => s.color)
@@ -39,7 +37,7 @@ function Index() {
 
   useEffect(() => {
 
-    gsap.registerPlugin(ScrollTrigger)
+    // gsap.registerPlugin(ScrollTrigger)
   
     // TODO: Destroy on cleanup
     // window.scroll.on('scroll', ScrollTrigger.update)
@@ -158,7 +156,7 @@ function Index() {
     ScrollTrigger.create({
       animation: tl,
       trigger: "#verticals",
-      scroller: "#___gatsby",
+      scroller: window.scroller,
       start: "top top",
       end: "+=4000", 
       scrub: true,
@@ -179,6 +177,7 @@ function Index() {
     // }
   }, []);
 
+
   function rgb(rgb) {
     var c = new THREE.Color(`rgb(${rgb.r}, ${rgb.b}, ${rgb.b})`)
     var hex = c.getHex()
@@ -191,12 +190,12 @@ function Index() {
         <div className="page">
           
           <section>
-            <h2 id="heroText" className="title w-10/12 inline-block">
+            <h2 id="heroText" className="title w-10/12 inline-block" data-scroll data-scroll-speed="3">
               <span className="inline-block animate__animated animate__fadeInUp"><span className="text-gray-500">Design engineer combining</span> creativity, technology,</span>
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-1s"> design and strategy <span className="text-gray-500">to help brands</span> exceed their goals </span>
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-2s"><span className="text-gray-500">and ultimately</span> build better businesses.</span></h2>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end" data-scroll data-scroll-speed="1">
               <div className="relative">
                 <svg id="svg_circle" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" style={{width:"20vw", height:"20vw"}} viewBox="0 0 101 101">
                   <defs>

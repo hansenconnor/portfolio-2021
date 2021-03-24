@@ -389,7 +389,7 @@ function Blob({ enableShadow, position, ...props }, ref) {
         enablePan={false}
         noZoom={true}
         dynamicDampingFactor={0.01}
-        rotateSpeed={20}
+        rotateSpeed={10}
       />
       {/* Ball hover target - main ref */}
       {/* <RayGrab> */}

@@ -13,7 +13,7 @@ const Layout = ({ children, location }) => {
         <Navbar />
       </header>
 
-      <Scroll />
+      <Scroll callbacks={location}/>
 
       <main>{children}</main>
       <footer>

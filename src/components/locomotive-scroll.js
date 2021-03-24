@@ -18,6 +18,10 @@ const Scroll = callbacks => {
       ...scroll.options,
     })
 
+    window.scrollOptions = scroll.options
+    window.scrollContainer = scroll.container
+    window.scroller = scroll.container
+
     locomotiveScroll.on('scroll', ScrollTrigger.update)
 
     ScrollTrigger.scrollerProxy(
