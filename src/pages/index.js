@@ -14,6 +14,7 @@ import CustomLink from "../components/custom-link"
 // import { Canvas, useFrame } from 'react-three-fiber'
 import BlobScene from '../components/blob-scene'
 import useBlobMatPropStore from '../store'
+import AppScene from './scene'
 
 function Index() {
 
@@ -22,8 +23,8 @@ function Index() {
   let [swarmColor, setSwarmColor] = useState(new THREE.Color( 0xff0000 ))
     
 
-    const color = useBlobMatPropStore(s => s.color)
-    const waves = useBlobMatPropStore(s => s.waves)
+    // const color = useBlobMatPropStore(s => s.color)
+    // const waves = useBlobMatPropStore(s => s.waves)
     // const color = useBlobMatPropStore.getState().color // Get non-reactive fresh state
 
     // const setColor = useBlobMatPropStore(state => state.setColor)
@@ -38,7 +39,7 @@ function Index() {
 
   useEffect(() => {
 
-    // gsap.registerPlugin(ScrollTrigger)
+    gsap.registerPlugin(ScrollTrigger)
   
     // TODO: Destroy on cleanup
     // window.scroll.on('scroll', ScrollTrigger.update)
@@ -80,7 +81,7 @@ function Index() {
 
     // Verticals Pinned Section Story
     const tl = gsap.timeline();
-
+    
     var initialIntensity = intensity,
     firstIntensity = { value: initialIntensity },
     secondIntensity = { value: 2 }
@@ -88,7 +89,7 @@ function Index() {
     // Set default configuration from store
     // ? Simplify ?
     let iConfig = {
-        color:  useBlobMatPropStore.getState().color, // Get non-reactive fresh state,
+        color:  useBlobMatPropStore.getState().testColor, // Get non-reactive fresh state,
         clearColor:  useBlobMatPropStore.getState().clearColor,
         waves: useBlobMatPropStore.getState().waves,
         speed: useBlobMatPropStore.getState().speed,
@@ -96,10 +97,8 @@ function Index() {
 
     // Config 1/3
     let matPropConfig_1 = {
-        color: "#FF0000",
-        clearColor: "#FF0000",
-        waves: 2,
-        speed: 10,
+        color: "rgba(255,0,0,1)",
+        speed: 1,
     }
 
     // Config 2/3
@@ -119,27 +118,22 @@ function Index() {
     }
 
     const setBlobMatProps = (props) => {
-      // console.log(props)
+      // console.log(props.color)
         useBlobMatPropStore.setState({
-            color: props.color,
-            clearColor: props.clearColor,
-            waves: props.waves,
+            testColor: props.color,
             speed: props.speed,
-        }, true)
+        })
 
         // setColor(colorProps.color)
         // setClearColor(colorProps.clearColor)
         // setWaves(waves)
         // setSpeed(speed)
     }
-
     
     tl.from(redRef.current, {y: "100%"})
       .to( iConfig,
         {
-          color: matPropConfig_1.color, 
-          clearColor: matPropConfig_1.clearColor, 
-          waves: matPropConfig_1.waves,
+          color: matPropConfig_1.color,
           speed: matPropConfig_1.speed,
           onUpdate: setBlobMatProps,
           onUpdateParams:[iConfig]
@@ -161,8 +155,7 @@ function Index() {
     //   onUpdate: setIntensity,
     //   onUpdateParams: [value] 
     // })
-    
-    window.scrollTrigger.create({
+    ScrollTrigger.create({
       animation: tl,
       trigger: "#verticals",
       scroller: "#___gatsby",
@@ -170,13 +163,12 @@ function Index() {
       end: "+=4000", 
       scrub: true,
       pin: true,
-      anticipatePin: 1
     });
-
+    
     // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
     // ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
 
-    // ScrollTrigger.refresh()
+    ScrollTrigger.refresh()
 
     // Initialize ThreeJS Blob Scene
     
@@ -194,17 +186,12 @@ function Index() {
   }
 
     return (
-      <React.Fragment>
+      <>
         <SEO title="Connor Hansen" />
         <div className="page">
-
-          <div className="fixed top-0 left-0">
-            <span>{color}</span>
-            <span>{waves}</span>
-          </div>
           
           <section>
-            <h2 id="heroText" className="title w-10/12 inline-block" data-scroll data-scroll-speed="3">
+            <h2 id="heroText" className="title w-10/12 inline-block">
               <span className="inline-block animate__animated animate__fadeInUp"><span className="text-gray-500">Design engineer combining</span> creativity, technology,</span>
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-1s"> design and strategy <span className="text-gray-500">to help brands</span> exceed their goals </span>
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-2s"><span className="text-gray-500">and ultimately</span> build better businesses.</span></h2>
@@ -238,7 +225,7 @@ function Index() {
           </section>
 
 
-          <section className="copy-scroll-section text-center min-h-screen flex items-center justify-center" data-scroll data-scroll-speed="2">
+          <section className="copy-scroll-section text-center min-h-screen flex items-center justify-center">
             <div>
               <p className="typography-hero-bullets text-5xl font-black text-gray-800 mb-4" data-scroll data-scroll-direction="horizontal" data-scroll-speed="-2">Redefining the future of </p>
               <p className="typography-hero-bullets text-5xl font-black text-gray-800" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">interactive experience design</p>
@@ -268,18 +255,23 @@ function Index() {
 
               <div className="flex items-center">
                 {/* <div className="blob-scene" /> */}
-                <BlobScene swarmCount={swarmCount} intensity={intensity} swarmColor={swarmColor}></BlobScene>
+                {/* <BlobScene swarmCount={swarmCount} intensity={intensity} swarmColor={swarmColor}></BlobScene> */}
+                <AppScene />
               </div>
 
             </div>
           </section>
 
-          <section className="min-h-screen"></section>
-          <section className="min-h-screen"></section>
+          <section className="min-h-screen">
+            another section
+          </section>
+          <section className="min-h-screen">
+            another section
+          </section>
           <section className="min-h-screen"></section>
 
         </div>
-      </React.Fragment>
+      </>
     )
 }
 

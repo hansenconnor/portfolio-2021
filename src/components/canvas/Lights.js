@@ -85,7 +85,7 @@ function Spotlight({id, target, onDelete, center }) {
   // useControl('Cast Shadow', { type: 'boolean', state: [shadow, setShadow], group });
   // useControl('Shadow focus', { type: 'number', state: [shadowFocus, setShadowFocus], min: 0, max: 1, group });
   // useControl('Shadow bias', { type: 'number', state: [shadowBias, setShadowBias], min: -0.1, max: 0.1, group });
-  const debug = useState(false)
+  const [debug, setDebug] = useState(false)
 //   const debug = useControl('Debug', { type: 'boolean', value: false, group });
 //   useControl('Delete spotlight', { type: 'button', onClick: () => onDelete(id), group });
 
@@ -100,20 +100,20 @@ function Spotlight({id, target, onDelete, center }) {
     }
   }, [debug, distance])
 
-  const [on, setOn] = useState(false)
+  const [on, setOn] = useState(true)
 
   // Intro delay timer
-  useEffect(() => {
-    const delay = firstLoad.current ? 1000 : 0
-    let timer
-    if (!isAboutOpen) {
-      timer = setTimeout(() => setOn(true), delay + 500*id)
-    } else {
-      setOn(false)
-    }
-    firstLoad.current = false
-    return () => clearTimeout(timer)
-  }, [id, isAboutOpen])
+  // useEffect(() => {
+  //   const delay = firstLoad.current ? 1000 : 0
+  //   let timer
+  //   if (!isAboutOpen) {
+  //     timer = setTimeout(() => setOn(true), delay + 500*id)
+  //   } else {
+  //     setOn(false)
+  //   }
+  //   firstLoad.current = false
+  //   return () => clearTimeout(timer)
+  // }, [id, isAboutOpen])
 
   // MATERIAL SPRING
   const lightSpring = {
@@ -148,10 +148,10 @@ function Spotlight({id, target, onDelete, center }) {
         shadow-mapSize-height={256}
         shadow-camera-near={.5}
         shadow-focus={shadowFocus}
-        target={target.current}
+        target={target.current} // ! FIX ME
       />
-      { debug && <DebugSpotlight light={light} /> }
-      { (debug && shadow) && <DebugSpotlightShadow camera={shadowCam} /> }
+      {  !!debug && <DebugSpotlight light={light} /> }
+      {/* { (debug && shadow) && <DebugSpotlightShadow camera={shadowCam} /> } */}
     </>
   )
 }
@@ -160,26 +160,40 @@ function Spotlight({id, target, onDelete, center }) {
  * Lights are positioned in relation to the base `position` and rotated to follow the target as it moves in the scene.
  */
 function Lights ({ position =[0,0,0], target }) {
-  const isAboutOpen = useState(false)
+  // const isAboutOpen = useState(false)
 //   const isAboutOpen = useUIStore(s => s.aboutOpen)
+    const [targetLoaded, setTargetLoaded] = useState(false)
+
+// console.log(target)
+// {current: undefined}
+// {current: undefined}
+// {current: undefined}
+// {current: undefined}
+
+useEffect(() => {
+  if (target) {
+    setTargetLoaded(true)
+    console.log("got target")
+  }
+}, [])
 
   const [ambientIntensity, setAmbientIntensity] = useState(.2);
   const [spotlights, setSpotlights] = useState([1,2,3]);
 //   const [ambientIntensity, setAmbientIntensity] = useQueryState('ambient', .2);
 //   const [spotlights, setSpotlights] = useQueryState('lights', [1,2,3]);
 
-  function addSpot() {
-    setSpotlights(spotlights => {
-      const newId = spotlights.length ? spotlights[spotlights.length-1]+1 : 1
-      return [...spotlights, newId]
-    })
-  }
+  // function addSpot() {
+  //   setSpotlights(spotlights => {
+  //     const newId = spotlights.length ? spotlights[spotlights.length-1]+1 : 1
+  //     return [...spotlights, newId]
+  //   })
+  // }
 
-  function removeSpot(id) {
-    setSpotlights(spotlights => {
-      return spotlights.filter(item => item !== id)
-    })
-  }
+  // function removeSpot(id) {
+  //   setSpotlights(spotlights => {
+  //     return spotlights.filter(item => item !== id)
+  //   })
+  // }
 
 //   useControl('Add spotlight', { type: 'button', onClick: addSpot});
 //   useControl('Ambient', { type: 'number', state: [ambientIntensity, setAmbientIntensity], min: 0, max: 2, group: 'Environment' });
@@ -195,10 +209,10 @@ function Lights ({ position =[0,0,0], target }) {
 
   return (
     <>
-      <a.ambientLight {...ambientSpring} color={"white"}/>
+      <ambientLight {...ambientSpring} color={"white"}/>
 
-      { spotlights && spotlights.map(id => (
-        <Spotlight key={id} id={id} target={target} onDelete={removeSpot} center={position}/>
+      { (spotlights && targetLoaded) && spotlights.map(id => (
+        <Spotlight key={id} id={id} target={target} center={position}/>
       ))}
     </>
   )

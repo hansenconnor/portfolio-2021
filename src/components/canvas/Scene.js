@@ -62,10 +62,10 @@ export default function Scene ({ center, enableShadowMap }) {
 //     onChange: ({clearColor}) => gl.setClearColor(clearColor, 1.0)
 //   })
 
-  useEffect(() => {
-    gl.setClearColor(notLoadedBg, 1.0)
-    setLoaded(true)
-  }, [gl])
+//   useEffect(() => {
+//     gl.setClearColor(notLoadedBg, 1.0)
+//     setLoaded(true)
+//   }, [gl])
 
   // update camera fov if changed
   // useEffect(() => {
@@ -103,7 +103,7 @@ export default function Scene ({ center, enableShadowMap }) {
     let rot = 0
     // let rot = -turns
     let blobX = 0
-    // let blobY = center[1]
+    let blobY = center[1]
 
     const mouseLerp = 0.05
     const scrollLerp = 0.033
@@ -120,12 +120,24 @@ export default function Scene ({ center, enableShadowMap }) {
     //   blobX = local.mouse.x * -mouseParallax * 0.5 - MathUtils.clamp(local.vx, -.1, .1)
     //   // blobY += local.mouse.y * mouseParallax * 0.5
     // }
+    // console.log(blob.current.position.x)
+    // console.log(blob.current.position.y)
     blob.current.position.x = MathUtils.lerp(blob.current.position.x, blobX, mouseLerp)
     // disable y parallax - interferes with responsive position
     // blob.current.position.y = MathUtils.lerp(blob.current.position.y, blobY, mouseLerp)
     
     blob.current.rotation.y = MathUtils.lerp(blob.current.rotation.y, rot, scrollLerp)
   })
+
+//   useEffect(() => {
+//     console.log(blob)
+//     console.log(blob.current.position.x)
+//     console.log(blob.current.position.y)
+//   }, [blob])
+//   useEffect(() => {
+//     console.log(blob.current.position.x)
+//     console.log(blob.current.position.y)
+//   }, [blob.current.position.x, blob.current.position.y])
 
   const [postprocess, setPostprocess] = useState(false)
 //   const [postprocess, setPostprocess] = useQueryState('pp', false)
@@ -157,9 +169,7 @@ export default function Scene ({ center, enableShadowMap }) {
       } */}
 
       {/* <TextCarousel ref={textCarousel} y={textY} visible={!isAboutOpen && isGallery} getVelocity={v => console.log(v)}/> */}
-      
-      <Lights target={blob} position={blobPos} />
-
+        <Lights target={blob} position={blobPos} />
       {/* <CustomTitle y={textY} visible={!isAboutOpen && !isGallery} /> */}
       
     </>

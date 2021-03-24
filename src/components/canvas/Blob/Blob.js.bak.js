@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, useState, useEffect, useMemo } from 'react'
-import { useTexture, Sphere, PerspectiveCamera } from '@react-three/drei'
+import { useTexture, Sphere } from '@react-three/drei'
 import { /*Shape, ShapeBufferGeometry,*/ WebGLCubeRenderTarget, Vector3, Quaternion, sRGBEncoding, DoubleSide, MeshPhysicalMaterial, MeshStandardMaterial, BufferGeometry, SphereGeometry, THREE } from 'three'
 import { useThree, useFrame, extend } from 'react-three-fiber'
 // import { RayGrab } from '@react-three/xr'
@@ -12,7 +12,6 @@ import MagicalMaterial from './MagicalMaterial'
 import PolarSphereGeometry from './PolarSphereBufferGeometry'
 import MagicalDepthMaterial from './MagicalDepthMaterial'
 import useBlobMatPropStore from '../../../store'
-import { OrbitControls, TrackballControls, Box } from '@react-three/drei'
 // import DebugMaterialControls from './DebugMaterialControls'
 // import VideoSlide from '../VideoSlide'
 
@@ -33,14 +32,12 @@ import gradient4 from '../../../images/gradients/cloudconvert/06_cosmic-fusion.p
 import gradient5 from '../../../images/gradients/cloudconvert/07_deep-ocean.png'
 import gradient6 from '../../../images/gradients/cloudconvert/08_lucky-day.png'
 import gradient7 from '../../../images/gradients/cloudconvert/09_sunset-vibes.png'
-import { useResource } from 'react-three-fiber'
-import { useUpdate } from 'react-three-fiber'
 
 const AnimatedMagicalMaterial = a(MagicalMaterial)
 // const AnimatedMagicalDepthMaterial = a(MagicalDepthMaterial)
 
-extend({ PolarSphereGeometry });
-extend({ TrackballControls });
+extend({ PolarSphereGeometry })
+
 // preload assets on parse
 // useTexture.preload([envMapSrc, gradient0, gradient1, gradient2, gradient3, gradient4, gradient5, gradient6, gradient7])
 
@@ -373,27 +370,19 @@ function Blob({ enableShadow, position, ...props }, ref) {
     segmentsX = 128
   }
 
-    const camera = useRef()
-    const { setDefaultCamera } = useThree()
-    // Make the camera known to the system
-    useEffect(() => void setDefaultCamera(camera.current), [])
-    // Update it every frame
-    useFrame(() => camera.current.updateMatrixWorld())
-
   return (
     <>
-        <perspectiveCamera fov={40} near={0.1} ref={camera} zoom={1} position={[0, 0, .7]} />
-      <TrackballControls
-        camera={camera.current}
-        target={[0, 0, 0]}
-        enablePan={false}
-        noZoom={true}
-        dynamicDampingFactor={0.01}
-        rotateSpeed={20}
-      />
+      {/* <DebugMaterialControls
+        material={material}
+        materialProps={presenceMaterialProps}
+        gradients={gradients}
+        selectedGradient={selectedGradient}
+        setSelectedGradient={setSelectedGradient} 
+      /> */}
+        
       {/* Ball hover target - main ref */}
       {/* <RayGrab> */}
-      <group ref={mergeRefs([ref, grabTarget])} position={position}>
+        <group ref={mergeRefs([ref, grabTarget])} position={position}>
           <Sphere args={[1, 4, 4]} scale={[blobScale*0.2, blobScale*0.2, blobScale*0.2]} material-wireframe position={[0, -.0, 0]} visible={false}/>
         </group>
       {/* </RayGrab> */}
@@ -430,6 +419,29 @@ function Blob({ enableShadow, position, ...props }, ref) {
           } */}
         </a.mesh>
       </a.group>
+
+      {/* { floorVisible && (
+        <mesh ref={ground} position={[0,floorY,0]} rotation={[-Math.PI/2,0,0]} scale={[floorSize,floorSize,floorSize]} receiveShadow>
+          <primitive object={roundedRectShapeGeom} attach="geometry"/>
+          <meshStandardMaterial color={floorColor}
+            roughness={floorRoughness}
+            metalness={floorMetalness}
+            envMap={useDynamicEnv ? cubeRenderTarget.texture : envMap}
+            envMapIntensity={floorEnvMap}
+            roughnessMap={lava}
+            transparent
+            opacity={floorOpacity}
+          />
+        </mesh>
+      )}
+      {useDynamicEnv && (
+        <VideoSlide ref={video} id="showreel" 
+          position={[0,2.5,-5]} 
+          args={[5, 5, 24, 24]} 
+          lookAt={[0,2.2,0]} 
+        />
+      )} */}
+
     </>
   )
 }

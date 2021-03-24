@@ -1,9 +1,13 @@
-import React, { useState, memo, Suspense } from 'react'
+import React, { useState, memo, Suspense, useEffect, useRef } from 'react'
 // import { VRCanvas, DefaultXRControllers } from '@react-three/xr'
 // import { Stats } from '@react-three/drei'
+// import { PerspectiveCamera } from '@react-three/drei'
+// import { OrbitControls } from '@react-three/drei'
 // import { Controls } from 'react-three-gui';
-import { Canvas } from 'react-three-fiber'
+import { Canvas, useFrame, useResource, useUpdate, useThree, extend } from 'react-three-fiber'
 // import { Controls, withControls } from 'react-three-gui';
+// import * as THREE from 'three';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // import { PCFSoftShadowMap } from 'three';
 // import { Perf } from 'r3f-perf'
 
@@ -17,7 +21,7 @@ import { Canvas } from 'react-three-fiber'
 
 // import XRPackage from './XRPackage'
 import Scene from '../components/canvas/Scene'
-import MyOrbitControls from '../components/canvas/MyOrbitControls'
+// import MyOrbitControls from '../components/canvas/MyOrbitControls'
 // import { useQueryState } from './useQueryState'
 // import VRButton from './components/ui/VRButton'
 // import RemixCTA from './components/ui/RemixCTA'
@@ -31,6 +35,7 @@ import MyOrbitControls from '../components/canvas/MyOrbitControls'
 
 // import './App.scss';
 
+// extend({ OrbitControls });
 // polyfill this way for react-three-gui
 (async () => {
   if ('ResizeObserver' in window === false) {
@@ -54,6 +59,34 @@ const cameraTarget = [0, 1.58, 0]
 const cameraPosition = [0, iconPosition[1], .7]
 
 
+// const CameraControls = () => {
+//   // Get a reference to the Three.js Camera, and the canvas html element.
+//   // We need these to setup the OrbitControls class.
+//   // https://threejs.org/docs/#examples/en/controls/OrbitControls
+
+//   // const {
+//   //   camera,
+//   //   gl: { domElement }
+//   // } = useThree();
+//   const camera = useRef();
+//   // Ref to the controls, so that we can update them on every frame using useFrame
+//   const controls = useRef();
+//   useFrame(state => controls.current.update());
+//   return (
+//     <>
+//       <PerspectiveCamera fov={40} near={0.1} zoom={1} ref={camera} position={cameraPosition} />
+//       <orbitControls
+//         ref={controls}
+//         camera={camera.current}
+//         enableZoom
+//         enableDamping
+//         dampingFactor={0.1}
+//         rotateSpeeed={0.5}
+//         minPolarAngle={0}
+//       />
+//     </>
+//   );
+// };
 
 
 
@@ -67,6 +100,9 @@ const AppCanvas = memo(({onCreated}) => {
   // useControl('Shadows enabled', { type: 'boolean', state: [enableShadowMap, setEnableShadowMap], group: 'Renderer' });
   // const showFPS = useControl('Show FPS', { type: 'boolean', value: false, group: 'Environment' });
 
+  // const controls = useRef()
+  // const camera = useResource()
+
   return (
     <Canvas
       gl={{
@@ -77,12 +113,6 @@ const AppCanvas = memo(({onCreated}) => {
       pixelRatio={Math.min(pixelRatio, 1.6)}
       noEvents
       colorManagement
-      camera={{
-        fov: 40,
-        near: 0.1,
-        position: cameraPosition,
-        zoom: 1,
-      }}
       // shadowMap={{
       //   enabled: enableShadowMap,
       //   type: PCFSoftShadowMap
@@ -90,22 +120,22 @@ const AppCanvas = memo(({onCreated}) => {
       concurrent
       onCreated={({gl, ...props}) => {
         gl.debug.checkShaderErrors = false
-        gl.setClearColor('#141518', 1.0)
+        gl.setClearColor('#000', 1.0)
         onCreated({ gl, ...props })
         setTimeout(() => gl.domElement.parentNode.style.opacity = 1, 0)
       }}
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
         opacity: 0,
+        width: "100%",
+        height: "100%"
       }}
     >
+      
+      {/* <CameraControls /> */}
       <Suspense fallback={null}>
-        <Scene center={iconPosition} enableShadowMap={enableShadowMap}/>
-        <MyOrbitControls target={cameraTarget} cameraPosition={cameraPosition} />
+        <Scene center={[0,0,0]} enableShadowMap={enableShadowMap}/>
+        {/* <PerspectiveCamera fov={40} near={0.1} zoom={1} ref={camera} position={cameraPosition} /> */}
+        {/* <MyOrbitControls target={cameraTarget} /> */}
       </Suspense>
 
       {/* { showFPS && (
@@ -119,7 +149,7 @@ const AppCanvas = memo(({onCreated}) => {
   )
 })
 
-function App() {  
+function AppScene() {  
 //   const showControls = useState(false)
 //   const showControls = useUIStore(s => s.showControls)
   const [gl, setGL] = useState()  
@@ -130,43 +160,10 @@ function App() {
 
 
   return (
-    <div className="App">
-        <AppCanvas onCreated={({gl}) => setGL(gl)}/>
-      {/* <Controls.Provider>  
-        <AppCanvas onCreated={({gl}) => setGL(gl)}/> */}
-
-        {/* <div className={'AppUI ' + (isAboutOpen ? 'hidden' : '')}> */}
-          
-
-          {/* <VRButton gl={gl} /> */}
-
-        {/* </div> */}
-
-        {/* <AboutOverlay /> */}
-
-        {/* { (showControls && !isAboutOpen) &&
-          <Controls
-            title="Blob Mixer"
-            collapsed={true}
-            anchor={'bottom_right'}
-            defaultClosedGroups={['Renderer', 'Lights', 'Blob Material', 'Blob Noise', 'Blob Surface Noise', 'Blob Geometry', 'Environment', 'Floor', 'Spotlight#1', 'Spotlight#2', 'Spotlight#3', 'Spotlight#4', 'Spotlight#5', 'Camera', 'Post-processing']}
-            style={{
-              maxHeight: 'min(90vh, 80vw)',
-              borderRadius: '0px',
-              background: '#000',
-              color: '#fff',
-              fontFamily: 'Aften Screen',
-            }}
-            className="GUI"
-          />
-        } */}
-      {/* </Controls.Provider> */}
-      {/* Loader doubles FPS.. whaaaat */}
-      {/* <Loader/> */}
-    </div>
+    <AppCanvas onCreated={({gl}) => setGL(gl)}/>
   );
 }
 
 
 
-export default App;
+export default AppScene;
