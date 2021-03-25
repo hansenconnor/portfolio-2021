@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { scroll } from "../theme"
 
-const Scroll = callbacks => {
+const Scroll = location => {
     
   useEffect(() => {
 
@@ -61,7 +61,7 @@ const Scroll = callbacks => {
     return () => {
       if (locomotiveScroll) locomotiveScroll.destroy()
     }
-  }, [callbacks])
+  }, [location])
 
   return null
 }

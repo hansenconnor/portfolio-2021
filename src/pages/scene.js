@@ -107,7 +107,7 @@ const AppCanvas = memo(({onCreated}) => {
     <Canvas
       gl={{
         antialias: true,
-        alpha: false,
+        alpha: true,
         powerPreference: 'high-performance',
       }}
       pixelRatio={Math.min(pixelRatio, 1.6)}
@@ -120,7 +120,7 @@ const AppCanvas = memo(({onCreated}) => {
       concurrent
       onCreated={({gl, ...props}) => {
         gl.debug.checkShaderErrors = false
-        gl.setClearColor('#000', 1.0)
+        gl.setClearColor(0xffffff, 0)
         onCreated({ gl, ...props })
         setTimeout(() => gl.domElement.parentNode.style.opacity = 1, 0)
       }}

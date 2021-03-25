@@ -61,85 +61,82 @@ function Index() {
     // });
 
     // Handle Parallax
-    // gsap.fromTo(".parallax", {
-    //   autoAlpha: 0,
-    //   backgroundPosition: `center 100%`
-    // },{
-    //   autoAlpha: 1,
-    //   backgroundPosition: `center 25%`,
-    //   scrollTrigger: {
-    //     trigger: ".parallax",
-    //     scroller: '#___gatsby',
-    //     start: "top 80%",
-    //     end: "top top",
-    //     scrub: true,
-    //     markers: false,
-    //   }
-    // });
+    // TODO: Convert to timeline
+    gsap.fromTo(".parallax", {
+      autoAlpha: 0,
+      backgroundPosition: `center 100%`
+    },{
+      autoAlpha: 1,
+      backgroundPosition: `center 25%`,
+      scrollTrigger: {
+        trigger: ".parallax",
+        scroller: window.scroller,
+        start: "top 80%",
+        end: "top top",
+        scrub: true,
+        markers: false,
+      }
+    });
 
     // Verticals Pinned Section Story
     const tl = gsap.timeline();
-    
-    var initialIntensity = intensity,
-    firstIntensity = { value: initialIntensity },
-    secondIntensity = { value: 2 }
 
     // Set default configuration from store
     // ? Simplify ?
     let iConfig = {
-        color:  useBlobMatPropStore.getState().testColor, // Get non-reactive fresh state,
-        clearColor:  useBlobMatPropStore.getState().clearColor,
-        waves: useBlobMatPropStore.getState().waves,
-        speed: useBlobMatPropStore.getState().speed,
+      color:  useBlobMatPropStore.getState().testColor, // Get non-reactive fresh state,
+      clearColor:  useBlobMatPropStore.getState().clearColor,
+      waves: useBlobMatPropStore.getState().waves,
+      speed: useBlobMatPropStore.getState().speed,
     }
 
     // Config 1/3
     let matPropConfig_1 = {
-        color: "rgba(255,0,0,1)",
-        speed: 1,
+      color: "rgba(255,0,0,1)",
+      speed: 1,
     }
 
     // Config 2/3
     let matPropConfig_2 = {
-        color: "#00FF00",
-        clearColor: "#00FF00",
-        waves: 2,
-        speed: 10,
+      color: "#00FF00",
+      clearColor: "#00FF00",
+      waves: 2,
+      speed: 10,
     }
 
     // Config 3/3
     let matPropConfig_3 = {
-        color: "#0000FF",
-        clearColor: "#0000FF",
-        waves: 2,
-        speed: 10,
+      color: "#0000FF",
+      clearColor: "#0000FF",
+      waves: 2,
+      speed: 10,
     }
 
     const setBlobMatProps = (props) => {
-      // console.log(props.color)
-        useBlobMatPropStore.setState({
-            testColor: props.color,
-            speed: props.speed,
-        })
-
-        // setColor(colorProps.color)
-        // setClearColor(colorProps.clearColor)
-        // setWaves(waves)
-        // setSpeed(speed)
+      useBlobMatPropStore.setState({
+          testColor: props.color,
+          speed: props.speed,
+      })
     }
     
-    tl.from(redRef.current, {y: "100%"})
+    // TODO: Update easings for sticky middle position
+    tl.fromTo(redRef.current, 
+      {y: "100%", autoAlpha: 0, duration: 2, ease: "none"}, 
+      {y: "50%", autoAlpha: 1, duration: 2, ease: "none"})
+      .to(redRef.current, {y: "0%", autoAlpha: 0, duration: 2, ease: "none"})
       .to( iConfig,
         {
           color: matPropConfig_1.color,
           speed: matPropConfig_1.speed,
           onUpdate: setBlobMatProps,
-          onUpdateParams:[iConfig]
+          onUpdateParams:[iConfig],
+          duration: 4
         },
-        "<"
-      )
-      .from(greenRef.current, {y: "100%"})
-      .from(blueRef.current, {y: "100%"});
+        0
+      );
+      
+    tl.from(greenRef.current, {y: "100%"})
+    .from(blueRef.current, {y: "100%"});
 
     // Update blob scene via timeline
     // let dummyIntensity = { value: 1.5 }
@@ -190,7 +187,7 @@ function Index() {
         <div className="page">
           
           <section>
-            <h2 id="heroText" className="title w-10/12 inline-block" data-scroll data-scroll-speed="3">
+            <h2 id="heroText" className="inline-block" data-scroll data-scroll-speed="3">
               <span className="inline-block animate__animated animate__fadeInUp"><span className="text-gray-500">Design engineer combining</span> creativity, technology,</span>
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-1s"> design and strategy <span className="text-gray-500">to help brands</span> exceed their goals </span>
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-2s"><span className="text-gray-500">and ultimately</span> build better businesses.</span></h2>
@@ -210,13 +207,13 @@ function Index() {
           </section>
 
 
-          <section className="min-h-screen flex items-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-200 h-80 parallax" style={{ backgroundImage: "url(" + collage + ")", backgroundSize: "auto" }}></div>
-              <div className="flex items-center">
+          <section className="min-h-screen flex items-center justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+              <div className="bg-gray-200 parallax" style={{ height: "30vw", minHeight: "350px", backgroundImage: "url(" + collage + ")", backgroundSize: "auto" }}></div>
+              <div className="flex items-center md:justify-center">
                 <div>
-                  <h2 className="gsap-fade-in">Fashion, Tech, Real Estate Healthcare and More</h2>
-                  <p className="gsap-fade-in mb-8">I’ve completed projects for a variety of industries and individuals.</p>
+                  <h3 className="gsap-fade-in"><span className="block">Fashion, Tech, Real Estate</span><span className="block">Healthcare and More</span></h3>
+                  <p className="gsap-fade-in mb-8 mt-6"><span className="block">I’ve completed projects for a variety of</span><span className="block">industries and individuals.</span></p>
                   <CustomLink className="gsap-fade-in" to="/showcase">Check out my work</CustomLink>
                 </div>
               </div>
@@ -225,41 +222,75 @@ function Index() {
 
 
           <section className="copy-scroll-section text-center min-h-screen flex items-center justify-center">
-            <div>
-              <p className="typography-hero-bullets text-5xl font-black text-gray-800 mb-4" data-scroll data-scroll-direction="horizontal" data-scroll-speed="-2">Redefining the future of </p>
-              <p className="typography-hero-bullets text-5xl font-black text-gray-800" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">interactive experience design</p>
+            <div className="container">
+              <div className="grid grid-cols-8">
+                <div className="col-span-full">
+                  <h1>
+                    Building the future of interactive experience design
+                    {/* <span className="typography-hero-bullets text-5xl font-black text-gray-800 mb-4" data-scroll data-scroll-direction="horizontal" data-scroll-speed="-2"></span>
+                    <span className="typography-hero-bullets text-5xl font-black text-gray-800" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">interactive experience design</span> */}
+                  </h1>
+                </div>
+                <div className="col-span-full xl:col-span-6 xl:col-start-2">
+                  <h4 className="text-gray-500 text-center mt-12 leading-normal">I’m focused on solving complex design interaction problems for individuals and startups in emerging tech spaces like Blockchain, Machine Learning and Edge Computing.</h4>
+                  <CustomLink to="/about" className="inline-block mt-24">Learn more about me</CustomLink>
+                </div>  
+              </div>
             </div>
           </section>
 
 
-          <section id="verticals" className="h-screen flex items-center relative w-full overflow-hidden">
+          <section id="verticals" className="h-screen relative overflow-hidden">
             <div className="grid grid-cols-2 gap-6 h-full w-full">
               
-              <div className="flex items-center">
-              <div className="relative w-full overflow-hidden h-80">
-                <div ref={redRef} className="panel absolute h-full w-full red bg-red-500 text-black">
+              <div className="relative w-full overflow-hidden h-screen">
+                <div ref={redRef} className="panel absolute h-full w-full red text-black">
                   <h2>Lorem Ipsum</h2>
                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
                 </div>
-                <div ref={greenRef} className="panel absolute h-full w-full green bg-green-500">
+                <div ref={greenRef} className="panel absolute h-full w-full green">
                   <h2>Lorem Ipsum</h2>
                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
                 </div>
-                <div ref={blueRef} className="panel absolute h-full w-full blue bg-blue-500">
+                <div ref={blueRef} className="panel absolute h-full w-full blue">
                   <h2>Lorem Ipsum</h2>
                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
                 </div>    
               </div>
-              </div>
 
-              <div className="flex items-center">
-                {/* <div className="blob-scene" /> */}
-                {/* <BlobScene swarmCount={swarmCount} intensity={intensity} swarmColor={swarmColor}></BlobScene> */}
+              <div className="flex items-center h-screen">
                 <AppScene />
               </div>
 
             </div>
           </section>
+
+          {/* <section id="verticals" className="h-screen flex items-center relative w-full overflow-hidden">
+            <div className="grid grid-cols-2 gap-6 h-full w-full">
+              
+              <div className="flex items-center">
+                <div className="relative w-full overflow-hidden h-80">
+                  <div ref={redRef} className="panel absolute h-full w-full red text-black">
+                    <h2>Lorem Ipsum</h2>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
+                  </div>
+                  <div ref={greenRef} className="panel absolute h-full w-full green">
+                    <h2>Lorem Ipsum</h2>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
+                  </div>
+                  <div ref={blueRef} className="panel absolute h-full w-full blue">
+                    <h2>Lorem Ipsum</h2>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
+                  </div>    
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <AppScene />
+              </div>
+
+            </div>
+          </section> */}
 
           <section className="min-h-screen">
             another section

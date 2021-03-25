@@ -3,6 +3,7 @@
 @tailwind utilities; */
 @import 'tailwindcss/base';
 @import 'tailwindcss/utilities';
+@import 'tailwindcss/components';
 @import 'animate.css';
 // @import 'locomotive-scroll.css';
 
@@ -31,18 +32,51 @@ body {
 //   );
 // }
 
+/* 36px @ 768px increasing to 60px @ 1920px */
 h1 {
-    --fluid-type-min: 2.5rem;
-    --fluid-type-max: 5rem;
-    --fluid-type-target: 5vw;
+    font-size: clamp(36px, calc(2.25rem + ((1vw - 7.68px) * 2.0833)), 60px);
+    /* Note: The calc base value (2.25rem) MUST be stated in REM to maintain accessibility */
+    /* Where: 2.0833 = 100 * font-size_difference / viewport_width_difference */
   
-    max-width: 15ch;
-  }
-  
-h2 {
-    font-size: clamp(24px, 2.5vw, 48px);
-    margin-bottom: clamp(16px, 1.5vw, 48px);
+    /* Safari resize fix */
+    min-height: 0vw;
 }
+
+/* 24px @ 768px increasing to 48px @ 1920px */
+h2 {
+    font-size: clamp(24px, calc(1.5rem + ((1vw - 7.68px) * 2.0833)), 48px);
+    /* Note: The calc base value (1.5rem) MUST be stated in REM to maintain accessibility */
+    /* Where: 2.0833 = 100 * font-size_difference / viewport_width_difference */
+  
+    /* Safari resize fix */
+    min-height: 0vw;
+}
+
+/* 18px @ 768px increasing to 36px @ 1920px */
+h3 {
+    font-size: clamp(18px, calc(1.125rem + ((1vw - 7.68px) * 1.5625)), 36px);
+    /* Note: The calc base value (1.125rem) MUST be stated in REM to maintain accessibility */
+    /* Where: 1.5625 = 100 * font-size_difference / viewport_width_difference */
+  
+    /* Safari resize fix */
+    min-height: 0vw;
+}
+
+/* 18px @ 768px increasing to 24px @ 1920px */
+h4 {
+    font-size: clamp(18px, calc(1.125rem + ((1vw - 7.68px) * 0.5208)), 24px);
+    /* Note: The calc base value (1.125rem) MUST be stated in REM to maintain accessibility */
+    /* Where: 0.5208 = 100 * font-size_difference / viewport_width_difference */
+  
+    /* Safari resize fix */
+    min-height: 0vw;
+}
+
+
+// h2 {
+//     font-size: clamp(24px, 2.5vw, 48px);
+//     margin-bottom: clamp(16px, 1.5vw, 48px);
+// }
   
 h3 {
     --fluid-type-min: 1.5rem;
