@@ -23,7 +23,7 @@ const Navbar = () => {
             </div>
 
             <div className="contact-button items-center hidden w-full lg:flex lg:w-1/3 justify-end">
-                <CustomLink to="/">New Project</CustomLink>
+                <CustomLink to="/contact">New Project</CustomLink>
             </div>
 
             <div className="menu-toggle w-2/3 flex md:hidden justify-end">

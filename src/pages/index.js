@@ -57,7 +57,7 @@ function Index() {
 
     return (
       <>
-        <SEO title="Connor Hansen" />
+        <SEO title="Home" />
         <div className="page">
           
           <section>
