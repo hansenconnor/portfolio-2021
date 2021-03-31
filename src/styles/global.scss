@@ -72,6 +72,12 @@ h4 {
     min-height: 0vw;
 }
 
+@media screen and (min-width: 1920px) {
+    h2 {
+        font-size: 2.500vw;
+    }
+}
+
 
 // h2 {
 //     font-size: clamp(24px, 2.5vw, 48px);
