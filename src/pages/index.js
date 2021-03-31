@@ -11,32 +11,28 @@ import AppScene from './scene'
 
 function Index() {
 
-  let [intensity, setIntensity] = useState(0.25)
-    
-
-    // const color = useBlobMatPropStore(s => s.color)
-    // const waves = useBlobMatPropStore(s => s.waves)
-    // const color = useBlobMatPropStore.getState().color // Get non-reactive fresh state
-
-    // const setColor = useBlobMatPropStore(state => state.setColor)
-    // const setClearColor = useBlobMatPropStore(state => state.setClearColor)
-    // const setWaves = useBlobMatPropStore(state => state.setWaves)
-    // const setSpeed = useBlobMatPropStore(state => state.setSpeed)
-
-
-  const redRef = useRef(null)
-  const greenRef = useRef(null)
-  const blueRef = useRef(null)
   const clientsRef = useRef()
+  const outroRef = useRef()
+  const outroContentRef = useRef()
 
   useEffect(() => {
 
-    console.log(window.scroll)
+    gsap.fromTo(outroContentRef.current, {
+      yPercent: "-50"
+    }, {
+      yPercent: "0",
+      scrollTrigger: {
+        trigger: outroRef.current,
+        scroller: window.scroller,
+        end: "bottom bottom",
+        scrub: true,
+      }, ease: "none"
+    })
     
     // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
     // ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
 
-    // ScrollTrigger.refresh()
+    ScrollTrigger.refresh()
 
     // Initialize ThreeJS Blob Scene
     
@@ -104,7 +100,7 @@ function Index() {
           </section>
 
           {/* Parallax Collage */}
-          <section style={{ height: "66vh" }}>
+          <section className="overflow-hidden" style={{ height: "66vh" }}>
             <div className="parallax-wrapper overflow-hidden bg-gray-100">
               <figure data-scroll data-scroll-speed="2" style={{ height: "83.33%", minHeight: "350px" }}>
                 <img src={collage} alt="Design Collage" style={{ transform: "scale(2)"}} />
@@ -113,20 +109,32 @@ function Index() {
           </section>
 
 
-          <section className="copy-scroll-section text-center min-h-screen flex items-center justify-center">
-            <div className="container">
-              <div className="grid grid-cols-8">
-                <div className="col-span-full">
+          <section className="lg:text-center min-h-screen flex items-center justify-center">
+              <div className="flex flex-col lg:items-center">
+                <div className="w-100">
                   <h1>
-                    Building the future of interactive experience design
-                    {/* <span className="typography-hero-bullets text-5xl font-black text-gray-800 mb-4" data-scroll data-scroll-direction="horizontal" data-scroll-speed="-2"></span>
-                    <span className="typography-hero-bullets text-5xl font-black text-gray-800" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">interactive experience design</span> */}
+                    Building the Future of<br/>Interactive Experience Design
                   </h1>
                 </div>
-                <div className="col-span-full xl:col-span-6 xl:col-start-2">
-                  <h4 className="text-gray-500 text-center mt-12 leading-normal">I’m focused on solving complex design interaction problems for individuals and startups in emerging tech spaces like Blockchain, Machine Learning and Edge Computing.</h4>
+                <div className="w-full lg:w-5/6 xl:w-3/4">
+                  <h4 className="text-gray-500 lg:text-center mt-12 leading-normal">I’m focused on solving complex design interaction problems for individuals and startups in emerging tech spaces like Blockchain, Machine Learning and Edge Computing.</h4>
                   <CustomLink to="/about" className="inline-block mt-24">Learn more about me</CustomLink>
                 </div>  
+              </div>
+          </section>
+
+
+          {/* New Project */}
+          <section className="min-h-screen flex items-center justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+              <div className="flex items-center md:justify-center">
+                <div>
+                  <h3 className="gsap-fade-in"><span className="block">Are you reacy to start</span><span className="block">your next project?</span></h3>
+                  <p className="gsap-fade-in mb-8 mt-6"><span className="block">User-centric design that beats the competition.</span><span className="block">Time and time again.</span></p>
+                  <CustomLink className="gsap-fade-in" to="/contact">Send me a message</CustomLink>
+                </div>
+              </div>
+              <div className="col-span-1 overflow-hidden bg-gray-100 rounded-3xl">
               </div>
             </div>
           </section>
@@ -159,13 +167,30 @@ function Index() {
             </div>
           </section> */}
 
-          <section className="min-h-screen">
-            another section
+          <section ref={outroRef} className="bg-gray-900 text-white items-center overflow-hidden h-screen" style={{ minHeight: "720px", margin: "0 -10vw", padding: "0 10vw" }}>
+            <div ref={outroContentRef} className="outro-content py-16 flex items-center h-full">
+              <div className="outro-body flex h-100 w-full items-center">
+                <div className="grid grid-cols-3 w-full">
+                  {/* Col 1 */}
+                  <div className="outro-col col-span-3 lg:col-span-1">
+                      <h4 className="text-gray-300">Don't be shy</h4>
+                      <h1 className="font-semibold text-white">Say Hi.</h1>
+                  </div>
+                  {/* Col 2 */}
+                  <div className="outro-col col-span-3 lg:col-span-1">
+                      <h5 className="text-gray-400 uppercase tracking-widest">Navigation</h5>
+                  </div>
+                  {/* Col 3 */}
+                  <div className="outro-col col-span-3 lg:col-span-1">
+                      <span className="block text-gray-400">Designed in <a className="text-white" href="http://figma.com" target="_blank">Figma</a></span>
+                      <span className="block mt-4 text-gray-400">Built with <a className="text-white" href="http://gatsbyjs.com" target="_blank">Gatsby</a></span>
+                      <span className="block mt-4 text-gray-400">Styles by <a className="text-white" href="http://tailwindcss.com" target="_blank">Tailwind</a></span>
+                      <span className="block mt-4 text-gray-400"><a className="text-white" href="http://github.com/hansenconnor/portfolio-2021" target="_blank">Source Code</a> available</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
-          <section className="min-h-screen">
-            another section
-          </section>
-          <section className="min-h-screen"></section>
 
         </div>
       </>

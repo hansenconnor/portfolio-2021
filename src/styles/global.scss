@@ -32,19 +32,19 @@ body {
 //   );
 // }
 
-/* 36px @ 768px increasing to 60px @ 1920px */
+/* 36px @ 768px increasing to 64px @ 1920px */
 h1 {
-    font-size: clamp(36px, calc(2.25rem + ((1vw - 7.68px) * 2.0833)), 60px);
+    font-size: clamp(36px, calc(2.25rem + ((1vw - 7.68px) * 2.4306)), 3.333vw);
     /* Note: The calc base value (2.25rem) MUST be stated in REM to maintain accessibility */
-    /* Where: 2.0833 = 100 * font-size_difference / viewport_width_difference */
+    /* Where: 2.4306 = 100 * font-size_difference / viewport_width_difference */
   
     /* Safari resize fix */
     min-height: 0vw;
-}
+  }
 
 /* 24px @ 768px increasing to 48px @ 1920px */
 h2 {
-    font-size: clamp(24px, calc(1.5rem + ((1vw - 7.68px) * 2.0833)), 48px);
+    font-size: clamp(24px, calc(1.5rem + ((1vw - 7.68px) * 2.0833)), 2.500vw);
     /* Note: The calc base value (1.5rem) MUST be stated in REM to maintain accessibility */
     /* Where: 2.0833 = 100 * font-size_difference / viewport_width_difference */
   
@@ -52,19 +52,19 @@ h2 {
     min-height: 0vw;
 }
 
-/* 18px @ 768px increasing to 36px @ 1920px */
+/* 24px @ 768px increasing to 36px @ 1920px */
 h3 {
-    font-size: clamp(18px, calc(1.125rem + ((1vw - 7.68px) * 1.5625)), 36px);
-    /* Note: The calc base value (1.125rem) MUST be stated in REM to maintain accessibility */
-    /* Where: 1.5625 = 100 * font-size_difference / viewport_width_difference */
+    font-size: clamp(24px, calc(1.5rem + ((1vw - 7.68px) * 1.0417)), 1.875vw);
+    /* Note: The calc base value (1.5rem) MUST be stated in REM to maintain accessibility */
+    /* Where: 1.0417 = 100 * font-size_difference / viewport_width_difference */
   
     /* Safari resize fix */
     min-height: 0vw;
-}
+  }
 
 /* 18px @ 768px increasing to 24px @ 1920px */
 h4 {
-    font-size: clamp(18px, calc(1.125rem + ((1vw - 7.68px) * 0.5208)), 24px);
+    font-size: clamp(18px, calc(1.125rem + ((1vw - 7.68px) * 0.5208)), 1.250vw);
     /* Note: The calc base value (1.125rem) MUST be stated in REM to maintain accessibility */
     /* Where: 0.5208 = 100 * font-size_difference / viewport_width_difference */
   
@@ -72,11 +72,35 @@ h4 {
     min-height: 0vw;
 }
 
-@media screen and (min-width: 1920px) {
-    h2 {
-        font-size: 2.500vw;
-    }
+/* 16px @ 768px increasing to 18px @ 1920px */
+h5 {
+    font-size: clamp(16px, calc(1rem + ((1vw - 7.68px) * 0.1736)), 0.938vw);
+    /* Note: The calc base value (1rem) MUST be stated in REM to maintain accessibility */
+    /* Where: 0.1736 = 100 * font-size_difference / viewport_width_difference */
+  
+    /* Safari resize fix */
+    min-height: 0vw;
 }
+
+  /* 12px @ 768px increasing to 14px @ 1920px */
+h6 {
+    font-size: clamp(12px, calc(0.75rem + ((1vw - 7.68px) * 0.1736)), 0.729vw);
+    /* Note: The calc base value (0.75rem) MUST be stated in REM to maintain accessibility */
+    /* Where: 0.1736 = 100 * font-size_difference / viewport_width_difference */
+  
+    /* Safari resize fix */
+    min-height: 0vw;
+}
+
+/* 16px @ 768px increasing to 16px @ 1920px */
+p {
+    font-size: clamp(16px, calc(1rem + ((1vw - 7.68px) * 0)), 0.833vw);
+    /* Note: The calc base value (1rem) MUST be stated in REM to maintain accessibility */
+    /* Where: 0 = 100 * font-size_difference / viewport_width_difference */
+  
+    /* Safari resize fix */
+    min-height: 0vw;
+  }
 
 
 // h2 {
