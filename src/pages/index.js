@@ -1,18 +1,11 @@
 import React, { useState, useEffect, useRef } from "react"
 import * as THREE from 'three'
-// import { Spring } from "react-spring/renderprops"
-// import VisibilitySensor from "react-visibility-sensor"
-// import {Parallax, ParallaxLayer} from 'react-spring/renderprops-addons'
-// import Layout from "../components/layout"
 import SEO from "../components/seo"
-// import LocomotiveScroll from 'locomotive-scroll'
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import collage from "../images/collage-small.png"
 import CustomLink from "../components/custom-link"
-// import * as THREE from 'three'
-// import { Canvas, useFrame } from 'react-three-fiber'
-import BlobScene from '../components/blob-scene'
+
 import useBlobMatPropStore from '../store'
 import AppScene from './scene'
 
@@ -34,136 +27,16 @@ function Index() {
   const redRef = useRef(null)
   const greenRef = useRef(null)
   const blueRef = useRef(null)
+  const clientsRef = useRef()
 
   useEffect(() => {
 
-    // gsap.registerPlugin(ScrollTrigger)
-  
-    // TODO: Destroy on cleanup
-    // window.scroll.on('scroll', ScrollTrigger.update)
-
-    // Fade in elements with class
-    // gsap.utils.toArray(".gsap-fade-in").forEach(e => {
-
-    //   gsap.fromTo(e, {
-    //     autoAlpha: 0
-    //   },{
-    //     autoAlpha: 1,
-    //     scrollTrigger: {
-    //       trigger: e,
-    //       scroller: '#___gatsby',
-    //       start: "top 80%",
-    //       end: "top 50%",
-    //       scrub: true,
-    //       markers: false,
-    //     }
-    //   });
-    // });
-
-    // Handle Parallax
-    // TODO: Convert to timeline
-    gsap.fromTo(".parallax", {
-      autoAlpha: 0,
-      backgroundPosition: `center 100%`
-    },{
-      autoAlpha: 1,
-      backgroundPosition: `center 25%`,
-      scrollTrigger: {
-        trigger: ".parallax",
-        scroller: window.scroller,
-        start: "top 80%",
-        end: "top top",
-        scrub: true,
-        markers: false,
-      }
-    });
-
-    // Verticals Pinned Section Story
-    const tl = gsap.timeline();
-
-    // Set default configuration from store
-    // ? Simplify ?
-    let iConfig = {
-      color:  useBlobMatPropStore.getState().testColor, // Get non-reactive fresh state,
-      clearColor:  useBlobMatPropStore.getState().clearColor,
-      waves: useBlobMatPropStore.getState().waves,
-      speed: useBlobMatPropStore.getState().speed,
-    }
-
-    // Config 1/3
-    let matPropConfig_1 = {
-      color: "rgba(255,0,0,1)",
-      speed: 1,
-    }
-
-    // Config 2/3
-    let matPropConfig_2 = {
-      color: "#00FF00",
-      clearColor: "#00FF00",
-      waves: 2,
-      speed: 10,
-    }
-
-    // Config 3/3
-    let matPropConfig_3 = {
-      color: "#0000FF",
-      clearColor: "#0000FF",
-      waves: 2,
-      speed: 10,
-    }
-
-    const setBlobMatProps = (props) => {
-      useBlobMatPropStore.setState({
-          testColor: props.color,
-          speed: props.speed,
-      })
-    }
-    
-    // TODO: Update easings for sticky middle position
-    tl.fromTo(redRef.current, 
-      {y: "100%", autoAlpha: 0, duration: 2, ease: "none"}, 
-      {y: "50%", autoAlpha: 1, duration: 2, ease: "none"})
-      .to(redRef.current, {y: "0%", autoAlpha: 0, duration: 2, ease: "none"})
-      .to( iConfig,
-        {
-          color: matPropConfig_1.color,
-          speed: matPropConfig_1.speed,
-          onUpdate: setBlobMatProps,
-          onUpdateParams:[iConfig],
-          duration: 4
-        },
-        0
-      );
-      
-    tl.from(greenRef.current, {y: "100%"})
-    .from(blueRef.current, {y: "100%"});
-
-    // Update blob scene via timeline
-    // let dummyIntensity = { value: 1.5 }
-    // tl.to(dummyIntensity, { 
-    //   value: 0.5,
-    //   onUpdate: setIntensity,
-    //   onUpdateParams: [dummyIntensity.value]
-    // })
-    // tl.to({ value: 1.5}, { 
-    //   value: 0.5,
-    //   onUpdate: setIntensity,
-    //   onUpdateParams: [value] 
-    // })
-    ScrollTrigger.create({
-      animation: tl,
-      trigger: "#verticals",
-      scroller: window.scroller,
-      start: "top top",
-      end: "+=4000", 
-      scrub: true,
-      pin: true,
-    });
+    console.log(window.scroll)
     
     // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
     // ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
 
-    ScrollTrigger.refresh()
+    // ScrollTrigger.refresh()
 
     // Initialize ThreeJS Blob Scene
     
@@ -172,6 +45,7 @@ function Index() {
     //   console.log('destroying scroller')
     //   scroller.destroy()
     // }
+    window.scroll.update()
   }, []);
 
 
@@ -193,7 +67,7 @@ function Index() {
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-2s"><span className="text-gray-500">and ultimately</span> build better businesses.</span></h2>
 
             <div className="flex justify-end" data-scroll data-scroll-speed="1">
-              <div className="relative">
+              <div className="relative overflow-hidden cursor-pointer rounded-full" onClick={() => window.scroll.scrollTo(clientsRef.current)} style={{width:"20vw", height:"20vw"}}>
                 <svg id="svg_circle" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" style={{width:"20vw", height:"20vw"}} viewBox="0 0 101 101">
                   <defs>
                   </defs>
@@ -207,9 +81,13 @@ function Index() {
           </section>
 
 
-          <section className="min-h-screen flex items-center justify-center">
+          <section ref={clientsRef} className="min-h-screen flex items-center justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div className="bg-gray-200 parallax" style={{ height: "30vw", minHeight: "350px", backgroundImage: "url(" + collage + ")", backgroundSize: "auto" }}></div>
+              <div className="col-span-1 overflow-hidden bg-gray-100">
+                <figure data-scroll data-scroll-speed="1" style={{ height: "30vw", minHeight: "350px" }}>
+                  <img src={collage} alt="" style={{ transform: "scale(2)"}}/>
+                </figure>
+              </div>
               <div className="flex items-center md:justify-center">
                 <div>
                   <h3 className="gsap-fade-in"><span className="block">Fashion, Tech, Real Estate</span><span className="block">Healthcare and More</span></h3>
@@ -217,6 +95,20 @@ function Index() {
                   <CustomLink className="gsap-fade-in" to="/showcase">Check out my work</CustomLink>
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* Featured Projects */}
+          <section className="flex items-center" style={{ height: "20vh", minHeight: "256px"}}>
+            <h1 className="font-medium">Featured Projects</h1>
+          </section>
+
+          {/* Parallax Collage */}
+          <section style={{ height: "66vh" }}>
+            <div className="parallax-wrapper overflow-hidden bg-gray-100">
+              <figure data-scroll data-scroll-speed="2" style={{ height: "83.33%", minHeight: "350px" }}>
+                <img src={collage} alt="Design Collage" style={{ transform: "scale(2)"}} />
+              </figure>
             </div>
           </section>
 
@@ -239,31 +131,6 @@ function Index() {
             </div>
           </section>
 
-
-          <section id="verticals" className="h-screen relative overflow-hidden">
-            <div className="grid grid-cols-2 gap-6 h-full w-full">
-              
-              <div className="relative w-full overflow-hidden h-screen">
-                <div ref={redRef} className="panel absolute h-full w-full red text-black">
-                  <h2>Lorem Ipsum</h2>
-                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
-                </div>
-                <div ref={greenRef} className="panel absolute h-full w-full green">
-                  <h2>Lorem Ipsum</h2>
-                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
-                </div>
-                <div ref={blueRef} className="panel absolute h-full w-full blue">
-                  <h2>Lorem Ipsum</h2>
-                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et totam eligendi necessitatibus ea. Labore ipsam itaque corrupti. Ea quod molestias architecto, ratione enim voluptatibus adipisci ipsa dolores nihil ipsum id?</p>
-                </div>    
-              </div>
-
-              <div className="flex items-center h-screen">
-                <AppScene />
-              </div>
-
-            </div>
-          </section>
 
           {/* <section id="verticals" className="h-screen flex items-center relative w-full overflow-hidden">
             <div className="grid grid-cols-2 gap-6 h-full w-full">

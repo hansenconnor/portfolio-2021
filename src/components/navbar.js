@@ -27,8 +27,8 @@ const Navbar = () => {
             </div>
 
             <div className="menu-toggle w-2/3 flex md:hidden justify-end">
-                <button className="flex items-center">
-                    <span className="flex mr-3">Menu</span>
+                <button className="group flex items-center">
+                    <span className="flex mr-3 text-gray-500 group-hover:text-gray-900 transition-colors">Menu</span>
                     <span>
                         <span className="block rounded bg-gray-900 w-6" style={{height: "2px"}}></span>
                         <span className="block rounded bg-gray-900 w-6 mt-1.5" style={{height: "2px"}}></span>

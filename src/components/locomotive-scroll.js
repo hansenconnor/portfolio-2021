@@ -44,7 +44,7 @@ const Scroll = location => {
 
     locomotiveScroll.update()
 
-
+        console.log(locomotiveScroll)
     // Exposing to the global scope for ease of use.
     window.scroll = locomotiveScroll
     // window.scrollTrigger = ScrollTrigger
