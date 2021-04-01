@@ -183,3 +183,14 @@ p {
     --gradient-color-3: #7038ff;  
     --gradient-color-4: #ffba27;
   }
+
+.featured-project {
+    &__image {
+        @apply overflow-hidden;
+        @apply rounded-3xl;
+        @apply border-gray-900;
+        @apply bg-gray-900;
+        @apply border-8;
+        box-shadow: 0px 100px 150px -50px rgba(0, 0, 0, 0.25);
+    }
+}

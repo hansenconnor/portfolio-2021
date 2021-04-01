@@ -3,9 +3,19 @@ import * as THREE from 'three'
 import SEO from "../components/seo"
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import collage from "../images/collage-small.png"
+import CollageSmall from "../images/collage-small.png"
+import CollageLarge from "../images/collage-large.png"
 import CustomLink from "../components/custom-link"
 import FoldingGradient from '../components/folding-gradient/index.js'
+import IBMScreen from '../images/screens/IBM.png'
+import IBMLogo from '../images/logos/ibm-logo.inline.svg'
+import CoolorsLogo from '../images/logos/coolors-logo.inline.svg'
+import CoolorsScreen from '../images/screens/coolors.png'
+import WiselyLogo from '../images/logos/wisely-logo.inline.svg'
+import WiselyScreen from '../images/screens/wisely.png'
+import HarshCruelLogo from '../images/logos/harsh-and-cruel-logo.inline.svg'
+import HarshCruelScreen from '../images/screens/harsh-and-cruel.png'
+import PhoneScreen from '../images/screens/your-project-here.inline.svg'
 
 import useBlobMatPropStore from '../store'
 import AppScene from './scene'
@@ -78,11 +88,11 @@ function Index() {
           </section>
 
 
-          <section ref={clientsRef} className="min-h-screen flex items-center justify-center">
+          <section ref={clientsRef} className="min-h-1/2-screen flex items-center justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div className="col-span-1 overflow-hidden bg-gray-100">
+              <div className="col-span-1 overflow-hidden bg-white">
                 <figure data-scroll data-scroll-speed="1" style={{ height: "30vw", minHeight: "350px" }}>
-                  <img src={collage} alt="" style={{ transform: "scale(2)"}}/>
+                  <img src={CollageSmall} alt="" style={{ transform: "scale(2.83)"}}/>
                 </figure>
               </div>
               <div className="flex items-center md:justify-center">
@@ -96,21 +106,67 @@ function Index() {
           </section>
 
           {/* Featured Projects */}
-          <section className="flex items-center" style={{ height: "20vh", minHeight: "256px"}}>
-            <h1 className="font-medium">Featured Projects</h1>
+          <section>
+            <div className="section-content py-32">
+              <div className="section-header py-16">
+                <h1 className="font-medium">Featured Projects</h1>
+              </div>
+              <div className="featured-projects">
+                <div className="featured-project py-24 flex flex-col lg:flex-row lg:items-center">
+                  <figure className="featured-project__image block w-full lg:w-3/5">
+                    <img src={IBMScreen} alt="IBM Screen"/>
+                  </figure>
+                  <article className="featured-project__copy flex flex-col justify-center py-8 md:p-8 w-full lg:w-2/5">
+                    <IBMLogo className="featured-project__logo"/>
+                    <h3 className="featured-project__title mt-9 mb-6">IBM Research</h3>
+                    <p className="featured-project__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit odit voluptates ad earum deleniti aut, sunt impedit, perspiciatis maxime veniam ipsam vitae facilis neque eos mollitia harum debitis dolores commodi?</p>
+                  </article>
+                </div>
+                <div className="featured-project py-24 flex flex-col lg:flex-row lg:items-center">
+                  <figure className="featured-project__image block w-full lg:w-3/5">
+                    <img src={CoolorsScreen} alt="Coolors Screen"/>
+                  </figure>
+                  <article className="featured-project__copy flex flex-col justify-center py-8 md:p-8 w-full lg:w-2/5">
+                    <CoolorsLogo className="featured-project__logo"/>
+                    <h3 className="featured-project__title mt-9 mb-6">Coolors</h3>
+                    <p className="featured-project__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit odit voluptates ad earum deleniti aut, sunt impedit, perspiciatis maxime veniam ipsam vitae facilis neque eos mollitia harum debitis dolores commodi?</p>
+                  </article>
+                </div>
+                <div className="featured-project py-24 flex flex-col lg:flex-row lg:items-center">
+                  <figure className="featured-project__image block w-full lg:w-3/5">
+                    <img src={WiselyScreen} alt="Wisely Screen"/>
+                  </figure>
+                  <article className="featured-project__copy flex flex-col justify-center py-8 md:p-8 w-full lg:w-2/5">
+                    <WiselyLogo className="featured-project__logo"/>
+                    <h3 className="featured-project__title mt-9 mb-6">Wisely</h3>
+                    <p className="featured-project__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit odit voluptates ad earum deleniti aut, sunt impedit, perspiciatis maxime veniam ipsam vitae facilis neque eos mollitia harum debitis dolores commodi?</p>
+                  </article>
+                </div>
+                <div className="featured-project py-24 flex flex-col lg:flex-row lg:items-center">
+                  <figure className="featured-project__image block w-full lg:w-3/5">
+                    <img src={HarshCruelScreen} alt="Harsh &amp; Cruel Screen"/>
+                  </figure>
+                  <article className="featured-project__copy flex flex-col justify-center py-8 md:p-8 w-full lg:w-2/5">
+                    <HarshCruelLogo className="featured-project__logo"/>
+                    <h3 className="featured-project__title mt-9 mb-6">Harsh &amp; Cruel</h3>
+                    <p className="featured-project__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit odit voluptates ad earum deleniti aut, sunt impedit, perspiciatis maxime veniam ipsam vitae facilis neque eos mollitia harum debitis dolores commodi?</p>
+                  </article>
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* Parallax Collage */}
-          <section className="overflow-hidden" style={{ height: "66vh" }}>
-            <div className="parallax-wrapper overflow-hidden bg-gray-100">
+          <section className="overflow-hidden flex items-center min-h-3/4-screen">
+            <div className="parallax-wrapper overflow-hidden bg-white">
               <figure data-scroll data-scroll-speed="2" style={{ height: "83.33%", minHeight: "350px" }}>
-                <img src={collage} alt="Design Collage" style={{ transform: "scale(2)"}} />
+                <img src={CollageLarge} alt="Design Collage" style={{ transform: "scale(2.6)"}} />
               </figure>
             </div>
           </section>
 
 
-          <section className="lg:text-center min-h-screen flex items-center justify-center">
+          <section className="lg:text-center min-h-1/2-screen flex items-center justify-center">
               <div className="flex flex-col lg:items-center">
                 <div className="w-100">
                   <h1>
@@ -126,7 +182,7 @@ function Index() {
 
 
           {/* New Project */}
-          <section className="min-h-screen flex items-center justify-center">
+          <section className="min-h-3/4-screen flex items-center justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
               <div className="flex items-center md:justify-center">
                 <div>
@@ -135,7 +191,8 @@ function Index() {
                   <CustomLink className="gsap-fade-in" to="/contact">Send me a message</CustomLink>
                 </div>
               </div>
-              <div className="col-span-1 overflow-hidden bg-gray-100 rounded-3xl">
+              <div className="order-first md:order-last col-span-1 relative overflow-hidden bg-gray-100 rounded-3xl min-h-1/3-screen">
+                <PhoneScreen className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-auto" preserveAspectRatio="xMidYMax meet" />
                 <FoldingGradient></FoldingGradient>
               </div>
             </div>
