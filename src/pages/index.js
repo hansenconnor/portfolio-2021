@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import collage from "../images/collage-small.png"
 import CustomLink from "../components/custom-link"
+import FoldingGradient from '../components/folding-gradient/index.js'
 
 import useBlobMatPropStore from '../store'
 import AppScene from './scene'
@@ -135,6 +136,7 @@ function Index() {
                 </div>
               </div>
               <div className="col-span-1 overflow-hidden bg-gray-100 rounded-3xl">
+                <FoldingGradient></FoldingGradient>
               </div>
             </div>
           </section>

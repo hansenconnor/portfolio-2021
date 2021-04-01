@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import SEO from "../components/seo"
-
+import FoldingGradient from '../components/folding-gradient/index.js'
 function Contact() {
 
     return (
@@ -8,15 +8,16 @@ function Contact() {
         <SEO title="Connor Hansen" />
         <div className="page" data-scroll>
           
-          <section class="h-screen">
+          <section className="h-screen">
             <h2 data-scroll data-scroll-speed="3">Scroll</h2>
             <h2>No scroll</h2>
+            <FoldingGradient></FoldingGradient>
           </section>
-          <section class="h-screen">
+          <section className="h-screen">
             <h2 data-scroll scroll-speed="3">Scroll</h2>
             <h2>No scroll</h2>
           </section>
-          <section class="h-screen">
+          <section className="h-screen">
             <h2 data-scroll scroll-speed="3">Scroll</h2>
             <h2>No scroll</h2>
           </section>
