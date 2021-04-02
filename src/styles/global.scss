@@ -18,7 +18,7 @@ body {
 }
 
 .page {
-    padding-top: 125px;
+    // padding-top: 125px;
 }
 
 // h1,
@@ -170,7 +170,7 @@ p {
 }
 
 #heroText {
-    padding-top: 18vw;
+    // padding-top: 18vw;
 }
 
 #gradient-canvas {
@@ -187,10 +187,10 @@ p {
 .featured-project {
     &__image {
         @apply overflow-hidden;
-        @apply rounded-3xl;
         @apply border-gray-900;
         @apply bg-gray-900;
-        @apply border-8;
+        border-width: 0.4vw;
+        border-radius: 1vw;
         box-shadow: 0px 100px 150px -50px rgba(0, 0, 0, 0.25);
     }
 }
