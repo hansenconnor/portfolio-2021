@@ -62,7 +62,7 @@ function Index() {
               <span className="inline-block animate__animated animate__fadeInUp animate__delay-2s"><span className="text-gray-500">and ultimately</span> build better businesses.</span></h2>
 
             <div className="flex justify-end" data-scroll data-scroll-speed="1">
-              <div className="relative overflow-hidden cursor-pointer rounded-full" onClick={() => window.scroll.scrollTo(clientsRef.current)} style={{width:"20vw", height:"20vw"}}>
+              <div className="relative overflow-hidden cursor-pointer rounded-full" onClick={() => window.bodyScrollBar.scrollIntoView(document.querySelector('.clients'))} style={{width:"20vw", height:"20vw"}}>
                 <svg id="svg_circle" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" style={{width:"20vw", height:"20vw"}} viewBox="0 0 101 101">
                   <defs>
                   </defs>
@@ -76,7 +76,7 @@ function Index() {
           </section>
 
 
-          <section ref={clientsRef} className="min-h-1/2-screen flex items-center justify-center">
+          <section ref={clientsRef} className="min-h-1/2-screen flex items-center justify-center clients">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
               <div className="col-span-1 overflow-hidden bg-white">
                 <figure data-scroll data-scroll-speed="1" style={{ height: "30vw", minHeight: "350px" }}>
