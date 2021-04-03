@@ -7,7 +7,7 @@ import CustomLink from "./custom-link"
 const Navbar = () => {
 
     return (
-        <nav className="navbar flex flex-wrap items-center justify-between px-12 py-8 w-screen">
+        <nav className="navbar flex flex-wrap items-center justify-between px-12 py-8">
             <div className="profile-image w-1/3">
                 <Link to="/" className="group rounded-full overflow-hidden h-16 w-16 block relative bg-gray-100 hover:bg-gray-50 hover:shadow-lg transition">
                     <img className="absolute inset-0 group-hover:left-full transition-all" src={Memoji} alt="Connor Hansen Memoji"/>

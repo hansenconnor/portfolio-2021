@@ -27,32 +27,41 @@ function Index() {
   const outroContentRef = useRef()
 
   useEffect(() => {
+    console.log('effect in child');
+
+    // ScrollTrigger.refresh()
+    // gsap.registerPlugin(ScrollTrigger)
 
     gsap.fromTo(outroContentRef.current, {
       yPercent: "-50"
     }, {
       yPercent: "0",
       scrollTrigger: {
-        trigger: outroRef.current,
         scroller: window.scroller,
+        trigger: outroRef.current,
         end: "bottom bottom",
         scrub: true,
+        markers: true
       }, ease: "none"
     })
-    
+
+
     // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
     // ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
 
-    ScrollTrigger.refresh()
-
-    // Initialize ThreeJS Blob Scene
-    
-
+    // window.bodyScrollBar.addListener(ScrollTrigger.update)
     // return () => {
     //   console.log('destroying scroller')
     //   scroller.destroy()
     // }
-    window.scroll.update()
+    // window.scroll.update()
+    // setInterval(function() {
+    //   ScrollTrigger.refresh()
+    // }, 2000)
+    console.log('refreshing scrolltrigger...');
+
+    // ScrollTrigger.refresh()
+
   }, []);
 
 
@@ -113,7 +122,7 @@ function Index() {
               </div>
               <div className="featured-projects">
                 <div className="featured-project py-24 flex flex-col lg:flex-row lg:items-center">
-                  <figure className="featured-project__image block w-full lg:w-3/5">
+                  <figure className="featured-project__image block w-full lg:w-3/5" data-scroll data-scroll-speed="3">
                     <img src={IBMScreen} alt="IBM Screen"/>
                   </figure>
                   <article className="featured-project__copy flex flex-col justify-center py-8 md:p-8 w-full lg:w-2/5">
