@@ -27,10 +27,6 @@ function Index() {
   const outroContentRef = useRef()
 
   useEffect(() => {
-    console.log('effect in child');
-
-    // ScrollTrigger.refresh()
-    // gsap.registerPlugin(ScrollTrigger)
 
     gsap.fromTo(outroContentRef.current, {
       yPercent: "-50"
@@ -44,23 +40,6 @@ function Index() {
         markers: true
       }, ease: "none"
     })
-
-
-    // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
-    // ScrollTrigger.addEventListener('refresh', () => window.scroll.update())
-
-    // window.bodyScrollBar.addListener(ScrollTrigger.update)
-    // return () => {
-    //   console.log('destroying scroller')
-    //   scroller.destroy()
-    // }
-    // window.scroll.update()
-    // setInterval(function() {
-    //   ScrollTrigger.refresh()
-    // }, 2000)
-    console.log('refreshing scrolltrigger...');
-
-    // ScrollTrigger.refresh()
 
   }, []);
 
