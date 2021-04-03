@@ -41,12 +41,6 @@ const Scroll = (location, scrollerRef) => {
     ScrollTrigger.refresh()
     bodyScrollBar.addListener(ScrollTrigger.update)
 
-
-    
-    return () => {
-      // if (bodyScrollBar) bodyScrollBar.destroy()
-      // bodyScrollBar.removeListener(ScrollTrigger.update)
-    }
   }, [location])
 
   return null
