@@ -44,12 +44,6 @@ function Index() {
   }, []);
 
 
-  function rgb(rgb) {
-    var c = new THREE.Color(`rgb(${rgb.r}, ${rgb.b}, ${rgb.b})`)
-    var hex = c.getHex()
-    return hex
-  }
-
     return (
       <>
         <SEO title="Home" />
