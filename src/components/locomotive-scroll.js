@@ -5,62 +5,42 @@ import LocomotiveScroll from "locomotive-scroll"
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { scroll } from "../theme"
+import Scrollbar from 'smooth-scrollbar'
+import SoftScrollPlugin from './plugins/SoftScrollPlugin'
 
-const Scroll = location => {
+const Scroll = (location, scrollerRef) => {
     
   useEffect(() => {
 
+    console.log('initializing layout...');
+    
+    
+    const scroller = scrollerRef.current
+    
+    Scrollbar.use(SoftScrollPlugin)
+    
+    const bodyScrollBar = Scrollbar.init(document.querySelector('.scroller'), { damping: 0.1, delegateTo: document, alwaysShowTracks: true })
+    
+    window.bodyScrollBar = bodyScrollBar
+    
     gsap.registerPlugin(ScrollTrigger)
-
-    let locomotiveScroll
-    locomotiveScroll = new LocomotiveScroll({
-      el: document.querySelector(scroll.container),
-      ...scroll.options,
-    })
-
-    window.scrollOptions = scroll.options
-    window.scrollContainer = scroll.container
-    window.scroller = scroll.container
-
-    locomotiveScroll.on('scroll', ScrollTrigger.update)
-
-    ScrollTrigger.scrollerProxy(
-        scroll.container, {
-            scrollTop(value) {
-                return arguments.length ?
-                locomotiveScroll.scrollTo(value, 0, 0) :
-                locomotiveScroll.scroll.instance.scroll.y
-            },
-            getBoundingClientRect() {
-                return {
-                    left: 0, top: 0, 
-                    width: window.innerWidth,
-                    height: window.innerHeight
-                }
-            },
-            pinType: document.querySelector(scroll.container).style.transform ? "transform" : "fixed"
+    
+    ScrollTrigger.defaults({ scroller: scroller })
+    
+    ScrollTrigger.scrollerProxy('.scroller', {
+      scrollTop(value) {
+        if (arguments.length) {
+          bodyScrollBar.scrollTop = value
         }
-    )
-
-    locomotiveScroll.update()
-
-        console.log(locomotiveScroll)
-    // Exposing to the global scope for ease of use.
-    window.scroll = locomotiveScroll
-    // window.scrollTrigger = ScrollTrigger
-
-    locomotiveScroll.on("scroll", func => {
-      // Update `data-direction` with scroll direction.
-      document.documentElement.setAttribute("data-direction", func.direction)
+        return bodyScrollBar.scrollTop
+      }
     })
 
-    ScrollTrigger.addEventListener('refresh', () => locomotiveScroll.update())
+    window.scroller = '.scroller'
 
     ScrollTrigger.refresh()
-    
-    return () => {
-      if (locomotiveScroll) locomotiveScroll.destroy()
-    }
+    bodyScrollBar.addListener(ScrollTrigger.update)
+
   }, [location])
 
   return null

@@ -1,20 +1,24 @@
-import * as React from "react"
+import React, { useRef, useEffect } from "react"
 import Navbar from "./navbar"
-import { Helmet } from "react-helmet"
-import Scroll from "./locomotive-scroll"
-import "../styles/locomotive-scroll.css"
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Scrollbar from 'smooth-scrollbar'
+import Scroll from './locomotive-scroll'
+import scrollbarStyles from '../styles/smooth-scrollbar.css'
+import 'splitting/dist/splitting.css'
+
 
 const Layout = ({ children, location }) => {
-
+  
+  const scrollerRef = useRef()
+  
   return (
-    <div className="global-wrapper" data-scroll-container>
-      {/* <Helmet htmlAttributes={{class : "bg-gray-50"}}></Helmet> */}
+    <div className="global-wrapper scroller h-screen overflow-hidden" ref={scrollerRef}>
+      <Scroll location={location} scrollerRef={scrollerRef} />
 
       <header className="global-header animate__animated animate__fadeIn">
         <Navbar />
       </header>
-
-      <Scroll location={location}/>
 
       <main>{children}</main>
       <footer>
@@ -22,6 +26,7 @@ const Layout = ({ children, location }) => {
         {` `}
         {/* <a href="https://www.gatsbyjs.com">Gatsby</a> */}
       </footer>
+      
     </div>
   )
 }
