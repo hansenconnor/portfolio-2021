@@ -14,7 +14,7 @@ export default class CustomLink extends React.Component {
             replace={this.props.replace}
         >
           <div className="inline-block">
-            <div className="relative flex items-center h-12 pl-10">
+            <div className="relative flex items-center h-12">
               <span className="mr-10 relative z-10">{this.props.children}</span>
               <div className="circle rounded-full border-2 border-gray-300 absolute right-0 top-0 h-12 w-12">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +35,7 @@ export default class CustomLink extends React.Component {
         overflow: hidden;
       }
       span {
-        transition: 0.3s cubic-bezier(0.8,0,0.2,1) margin;
+        transition: 0.3s cubic-bezier(0.8,0,0.2,1) transform;
       }
       svg {
         position: absolute;
@@ -48,12 +48,8 @@ export default class CustomLink extends React.Component {
       &:hover {
         color: #FFF;
 
-        div > div {
-          padding-left: 20px;
-        }
-
         span {
-          margin-right: 20px;
+          transform: translate(20px);
         }
 
         .circle {

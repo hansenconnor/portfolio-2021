@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Scrollbar from 'smooth-scrollbar'
 import Scroll from './locomotive-scroll'
 import scrollbarStyles from '../styles/smooth-scrollbar.css'
+import 'splitting/dist/splitting.css'
 
 
 const Layout = ({ children, location }) => {
