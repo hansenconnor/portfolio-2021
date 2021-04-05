@@ -159,8 +159,15 @@ function About() {
         </div>
       </section>
 
-      <section>
-
+      <section className="flex min-h-1/2-screen">
+        <div className="flex flex-1 flex-col lg:flex-row py-32">
+          <div className="w-full lg:w-1/2 min-h-1/2-screen justify-start lg:self-start bg-gray-400">
+            
+          </div>
+          <div className="w-full lg:w-1/2 min-h-1/2-screen justify-end lg:self-end bg-gray-400">
+            
+          </div>
+        </div>
       </section>
     </div>
   )
