@@ -3,6 +3,8 @@ import SEO from "../components/seo"
 import gsap from 'gsap'
 import '../styles/about.scss'
 import { AnimationActionLoopStyles } from "three";
+import jumping from '../images/20180929-DSC05418.jpg'
+import CustomLink from '../components/custom-link'
 
 let animations = []
 
@@ -62,9 +64,35 @@ function initMarquee() {
   })
 }
 
+function initHeroParallax(ref, containerRef) {
+  gsap.fromTo(ref.current, {
+    backgroundPosition: '50% 100%',
+  }, {
+    backgroundPosition: '50% 0%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: containerRef.current,
+      scrub: true,
+      start: 'top bottom',
+      end: 'bottom top'
+    }
+  })
+}
+
 function About() {
 
+  const heroParallaxRef = useRef()
+  const aboutHeroParallax = useRef()
+
   useEffect(() => {
+    console.log('About use effect');
+
+    // gsap.registerPlugin(ScrollTrigger)
+
+    // Initialize hero parallax
+    initHeroParallax(heroParallaxRef, aboutHeroParallax)
+
+    // Initialize hero marquee
     initMarquee()
     
     var timer
@@ -114,10 +142,25 @@ function About() {
         </div>
       </section>
 
-      <section className="about-parallax">
-        <div className="about-parallax__content py-32 min-h-3/4-screen bg-gray-400">
-          
+      <section ref={aboutHeroParallax} className="about-parallax">
+        <div ref={heroParallaxRef} className="about-parallax__content py-32 min-h-3/4-screen bg-gray-400" style={{background: `url(${jumping})`, backgroundSize: 'auto 150%', backgroundRepeat: 'no-repeat'}} />
+      </section>
+
+      <section className="lg:text-center min-h-1/2-screen flex items-center justify-center">
+        <div className="flex flex-col lg:items-center py-32">
+          <div className="w-100">
+            <h1>
+              Building the Future of<br/>Interactive Experience Design
+            </h1>
+          </div>
+          <div className="w-full lg:w-5/6 xl:w-3/4">
+            <h4 className="text-gray-500 lg:text-center mt-12 leading-normal">I’m focused on solving complex design interaction problems for individuals and startups in emerging tech spaces like Blockchain, Machine Learning and Edge Computing.</h4>
+          </div>  
         </div>
+      </section>
+
+      <section>
+
       </section>
     </div>
   )

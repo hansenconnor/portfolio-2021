@@ -1,26 +1,30 @@
-import React, { useRef, useEffect } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import Navbar from "./navbar"
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Scrollbar from 'smooth-scrollbar'
-import Scroll from './locomotive-scroll'
-import scrollbarStyles from '../styles/smooth-scrollbar.css'
-import 'splitting/dist/splitting.css'
+import Scroll from './scroll'
 
-
-const Layout = ({ children, location }) => {
+const Layout = ({ children }) => {
   
-  const scrollerRef = useRef()
+  let scrollerRef = useRef()
+  let [scrollDefined, setScrollDefined] = useState(false)
+
+  const initScroll = () => {
+    Scroll(scrollerRef)
+    setScrollDefined(true)
+  }
+
+  useEffect(() => {
+    initScroll()
+  }, [])
   
   return (
     <div className="global-wrapper scroller h-screen overflow-hidden" ref={scrollerRef}>
-      <Scroll location={location} scrollerRef={scrollerRef} />
 
       <header className="global-header animate__animated animate__fadeIn">
         <Navbar />
       </header>
+    
+      <main>{ scrollDefined && children }</main>
 
-      <main>{children}</main>
       <footer>
         {/* © {new Date().getFullYear()}, Built with */}
         {` `}

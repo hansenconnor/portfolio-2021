@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
-import * as THREE from 'three'
 import SEO from "../components/seo"
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CollageSmall from "../images/collage-small.png"
 import CollageLarge from "../images/collage-large.png"
 import CustomLink from "../components/custom-link"
@@ -16,11 +14,6 @@ import WiselyScreen from '../images/screens/wisely.png'
 import HarshCruelLogo from '../images/logos/harsh-and-cruel-logo.inline.svg'
 import HarshCruelScreen from '../images/screens/harsh-and-cruel.png'
 import PhoneScreen from '../images/screens/your-project-here.inline.svg'
-import SplitByLines from '../components/SplitText'
-import Splitting from 'splitting'
-
-import useBlobMatPropStore from '../store'
-import AppScene from './scene'
 
 function Index() {
 
@@ -37,9 +30,9 @@ function Index() {
     }, {
       yPercent: "0",
       scrollTrigger: {
-        scroller: window.scroller,
         trigger: outroRef.current,
-        end: "bottom bottom",
+        start: "top bottom",
+        end: "top top",
         scrub: true,
       }, ease: "none"
     })
