@@ -21,7 +21,8 @@
             position: relative;
             display: inline-block;
             z-index: 1;
-            padding: 0 64px
+            padding: 0 64px;
+            font-size: clamp(24px, calc(1.5rem + ((1vw - 7.68px) * 1.0417)), 1.875vw);
         }
 
         &--stroke {
