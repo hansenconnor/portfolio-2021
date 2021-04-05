@@ -2,9 +2,14 @@ import React, { useEffect, useRef } from "react"
 import SEO from "../components/seo"
 import gsap from 'gsap'
 import '../styles/about.scss'
+import { AnimationActionLoopStyles } from "three";
 
+let animations = []
 
 function initMarquee() {
+
+  // Kill animation if exists
+  animations.forEach(a => a.progress(0).kill())
 
   // Marquee speed (pixels per second)
   let velocity = 150;
@@ -52,6 +57,8 @@ function initMarquee() {
     
     // Increment offset
     offset += itemWidth
+
+    animations.push(tl)
   })
 }
 
