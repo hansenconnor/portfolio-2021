@@ -4,6 +4,9 @@ import gsap from 'gsap'
 import '../styles/about.scss'
 import { AnimationActionLoopStyles } from "three";
 import jumping from '../images/20180929-DSC05418.jpg'
+import jumping2 from '../images/20180929-DSC05386.jpg'
+import standing from '../images/20180929-DSC05363.jpg'
+import gitchee from '../images/gitchee-gumee.jpg'
 import CustomLink from '../components/custom-link'
 
 let animations = []
@@ -81,13 +84,12 @@ function initHeroParallax(ref, containerRef) {
 
 function About() {
 
-  const heroParallaxRef = useRef()
-  const aboutHeroParallax = useRef()
+  const heroParallaxRef = useRef(),
+  aboutHeroParallax = useRef(),
+  gitcheeParallaxRef = useRef(),
+  gitcheeParallaxTriggerRef = useRef()
 
   useEffect(() => {
-    console.log('About use effect');
-
-    // gsap.registerPlugin(ScrollTrigger)
 
     // Initialize hero parallax
     initHeroParallax(heroParallaxRef, aboutHeroParallax)
@@ -159,13 +161,24 @@ function About() {
         </div>
       </section>
 
-      <section className="flex min-h-1/2-screen">
-        <div className="flex flex-1 flex-col lg:flex-row py-32">
-          <div className="w-full lg:w-1/2 min-h-1/2-screen justify-start lg:self-start bg-gray-400">
-            
+      <section>
+        <div className="flex min-h-1/2-screen">
+          <div className="flex lg:w-1/2 lg:p-4 lg:mb-8">
+            <div className="w-full h-full" style={{background: `url(${jumping2})`, backgroundSize: 'auto 150%', backgroundRepeat: 'no-repeat'}} />
           </div>
-          <div className="w-full lg:w-1/2 min-h-1/2-screen justify-end lg:self-end bg-gray-400">
-            
+          <div className="flex lg:w-1/2 lg:p-4 lg:mt-8">
+            <div className="w-full h-full" style={{background: `url(${standing})`, backgroundPosition: '25% 0%', backgroundSize: 'auto 150%', backgroundRepeat: 'no-repeat'}} />
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="flex flex-col lg:flex-row lg:justify-center py-32">
+          <div className="flex lg:w-1/4 mb-9 lg:mb-0">
+            <h5 className="font-semibold">My Passion</h5>
+          </div>
+          <div className="flex lg:w-1/2">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam lorem in pretium massa, eu arcu. Nisi nunc, ut hendrerit sed.<br/><br/>Send me links to your portfolio, website, or social!<br/><br/>And please, no résumés.</p>
           </div>
         </div>
       </section>
