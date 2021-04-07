@@ -29,6 +29,9 @@ const Scroll = (scrollerRef) => {
 
   ScrollTrigger.refresh()
   bodyScrollBar.addListener(ScrollTrigger.update)
+
+  bodyScrollBar.scrollTo(0, 0, 0)
+  console.log('Scolled');
 }
 
 export default Scroll
