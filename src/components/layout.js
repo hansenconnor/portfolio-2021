@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react"
 import Navbar from "./navbar"
 import Scroll from './scroll'
 
-const Layout = ({ children }) => {
+const Layout = ({ children, location }) => {
   
   let scrollerRef = useRef()
   let [scrollDefined, setScrollDefined] = useState(false)
@@ -14,7 +14,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     initScroll()
-  }, [])
+  }, [location])
   
   return (
     <div className="global-wrapper scroller h-screen overflow-hidden" ref={scrollerRef}>
